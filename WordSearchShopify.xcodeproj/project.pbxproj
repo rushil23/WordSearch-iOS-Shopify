@@ -17,7 +17,7 @@
 		CEECF24B22833DA100B853FD /* Array2D.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEECF24822833DA100B853FD /* Array2D.swift */; };
 		CEECF24C22833DA100B853FD /* ArrayShuffle.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEECF24922833DA100B853FD /* ArrayShuffle.swift */; };
 		CEECF24D22833DA100B853FD /* CrosswordsGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEECF24A22833DA100B853FD /* CrosswordsGenerator.swift */; };
-		CEECF2502283958100B853FD /* Words.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEECF24F2283958100B853FD /* Words.swift */; };
+		CEECF2502283958100B853FD /* Game.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEECF24F2283958100B853FD /* Game.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -54,7 +54,7 @@
 		CEECF24822833DA100B853FD /* Array2D.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Array2D.swift; sourceTree = "<group>"; };
 		CEECF24922833DA100B853FD /* ArrayShuffle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArrayShuffle.swift; sourceTree = "<group>"; };
 		CEECF24A22833DA100B853FD /* CrosswordsGenerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CrosswordsGenerator.swift; sourceTree = "<group>"; };
-		CEECF24F2283958100B853FD /* Words.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Words.swift; sourceTree = "<group>"; };
+		CEECF24F2283958100B853FD /* Game.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Game.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -112,7 +112,7 @@
 				CE0A728722823C8A009957D8 /* Assets.xcassets */,
 				CE0A728922823C8A009957D8 /* LaunchScreen.storyboard */,
 				CE0A728C22823C8A009957D8 /* Info.plist */,
-				CEECF24F2283958100B853FD /* Words.swift */,
+				CEECF24F2283958100B853FD /* Game.swift */,
 			);
 			path = WordSearchShopify;
 			sourceTree = "<group>";
@@ -279,7 +279,7 @@
 				CE0A728322823C88009957D8 /* ViewController.swift in Sources */,
 				CEECF24C22833DA100B853FD /* ArrayShuffle.swift in Sources */,
 				CEECF24B22833DA100B853FD /* Array2D.swift in Sources */,
-				CEECF2502283958100B853FD /* Words.swift in Sources */,
+				CEECF2502283958100B853FD /* Game.swift in Sources */,
 				CE0A728122823C88009957D8 /* AppDelegate.swift in Sources */,
 				CEECF24D22833DA100B853FD /* CrosswordsGenerator.swift in Sources */,
 			);
