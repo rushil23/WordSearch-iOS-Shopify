@@ -22,6 +22,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     @IBOutlet weak var gridView: UICollectionView!
     @IBOutlet weak var namesView: UICollectionView!
     @IBOutlet weak var hintsRemainingLabel: UILabel!
+    @IBOutlet weak var wordsFound: UILabel!
     
     
     let game = Game()
@@ -67,6 +68,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         print("RESHUFFLE")
         game.populateGrid()
         hintsRemainingLabel.text = "Hints: \(game.hintsRemaining)"
+        wordsFound.text = "Words Found: \(game.wordsFound)"
         gridView.reloadData()
         namesView.reloadData()
     }
@@ -141,6 +143,8 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
                     game.updateStatusBetween(.found, firstTap, secondTap)
                     print("Found word!")
                     
+                    wordsFound.text = "Words Found: \(game.wordsFound)"
+                    
                     if (game.wordsFound == game.count) {
                         //Present WIN Alert
                         presentWinAlert()
@@ -177,6 +181,8 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
                 namesView.reloadData()
                 gridView.reloadData()
                 
+                wordsFound.text = "Words Found: \(game.wordsFound)"
+                
                 if (game.wordsFound == game.count) {
                     //Present WIN Alert
                     presentWinAlert()
@@ -200,6 +206,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
             self.gridView.reloadData()
             self.namesView.reloadData()
             self.hintsRemainingLabel.text = "Hints: \(self.game.hintsRemaining)"
+            self.wordsFound.text = "Words Found: \(self.game.wordsFound)"
         }))
         self.present(alert, animated: true, completion: nil)
     }

@@ -113,7 +113,14 @@
                                             <outlet property="delegate" destination="BYZ-38-t0r" id="ygA-Mk-Uvb"/>
                                         </connections>
                                     </collectionView>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Hints: 2" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XSn-aw-jjK">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Hints: 2" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XSn-aw-jjK" userLabel="Hints Remaining">
+                                        <rect key="frame" x="8" y="575" width="398" height="33"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                        <color key="textColor" red="0.88386482" green="0.31923630829999999" blue="0.25486460329999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Words Found: 0" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bTd-lg-gpC" userLabel="Words Found">
                                         <rect key="frame" x="8" y="575" width="398" height="33"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="20"/>
@@ -132,6 +139,7 @@
                         <outlet property="hintsRemainingLabel" destination="XSn-aw-jjK" id="Wp4-1x-SQG"/>
                         <outlet property="namesView" destination="XY5-37-a1R" id="g0o-rp-7MZ"/>
                         <outlet property="safeFrame" destination="gfE-uh-lAK" id="lKd-Nz-zHZ"/>
+                        <outlet property="wordsFound" destination="bTd-lg-gpC" id="oAs-gL-pld"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
