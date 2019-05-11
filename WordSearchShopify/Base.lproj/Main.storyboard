@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
-    <device id="retina6_1" orientation="portrait">
+    <device id="retina6_5" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
@@ -18,19 +18,75 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="gfE-uh-lAK" userLabel="safeFrame">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Z4k-H8-40S" userLabel="safeArea">
                                 <rect key="frame" x="0.0" y="44" width="414" height="818"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Word Search" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fBm-aK-9xx">
-                                        <rect key="frame" x="121" y="8" width="172" height="121"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Words Found: 0" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bTd-lg-gpC" userLabel="Words Found">
+                                        <rect key="frame" x="137" y="392" width="140" height="33"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <fontDescription key="fontDescription" type="system" weight="black" pointSize="47"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                         <color key="textColor" red="0.88386482" green="0.31923630829999999" blue="0.25486460329999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                         <nil key="highlightedColor"/>
                                     </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Hints: 2" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XSn-aw-jjK" userLabel="Hints Remaining">
+                                        <rect key="frame" x="169" y="392" width="75" height="33"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                        <color key="textColor" red="0.88386482" green="0.31923630829999999" blue="0.25486460329999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zUf-wf-ELP">
+                                        <rect key="frame" x="194" y="396" width="25" height="25"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <state key="normal" image="restart50"/>
+                                        <connections>
+                                            <action selector="resetLevel:" destination="BYZ-38-t0r" eventType="touchUpInside" id="nGI-S9-JcM"/>
+                                        </connections>
+                                    </button>
+                                    <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="XY5-37-a1R">
+                                        <rect key="frame" x="0.0" y="257" width="414" height="304"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="fc6-3F-vTZ">
+                                            <size key="itemSize" width="147" height="50"/>
+                                            <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                            <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                            <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                        </collectionViewFlowLayout>
+                                        <cells>
+                                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="NameCell" id="RHi-m5-ALq" customClass="NameViewCell" customModule="WordSearchShopify" customModuleProvider="target">
+                                                <rect key="frame" x="0.0" y="0.0" width="147" height="50"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
+                                                    <rect key="frame" x="0.0" y="0.0" width="147" height="50"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <subviews>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Shopify" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SBf-t9-rBF">
+                                                            <rect key="frame" x="0.0" y="0.0" width="147" height="50"/>
+                                                            <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="22"/>
+                                                            <color key="textColor" red="0.88386482" green="0.31923630829999999" blue="0.25486460329999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                    </subviews>
+                                                </view>
+                                                <constraints>
+                                                    <constraint firstAttribute="trailing" secondItem="SBf-t9-rBF" secondAttribute="trailing" id="2gM-CY-YfI"/>
+                                                    <constraint firstItem="SBf-t9-rBF" firstAttribute="leading" secondItem="RHi-m5-ALq" secondAttribute="leading" id="HGl-iS-Muf"/>
+                                                    <constraint firstItem="SBf-t9-rBF" firstAttribute="top" secondItem="RHi-m5-ALq" secondAttribute="top" id="Twj-68-S0Z"/>
+                                                    <constraint firstAttribute="bottom" secondItem="SBf-t9-rBF" secondAttribute="bottom" id="wmE-Ho-YpG"/>
+                                                </constraints>
+                                                <connections>
+                                                    <outlet property="name" destination="SBf-t9-rBF" id="0dz-Fi-T2Y"/>
+                                                </connections>
+                                            </collectionViewCell>
+                                        </cells>
+                                        <connections>
+                                            <outlet property="dataSource" destination="BYZ-38-t0r" id="d3p-9r-xvN"/>
+                                            <outlet property="delegate" destination="BYZ-38-t0r" id="ygA-Mk-Uvb"/>
+                                        </connections>
+                                    </collectionView>
                                     <collectionView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" scrollEnabled="NO" delaysContentTouches="NO" canCancelContentTouches="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="c1u-ZP-IB8">
-                                        <rect key="frame" x="0.0" y="162" width="414" height="414"/>
+                                        <rect key="frame" x="0.0" y="202" width="414" height="414"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <color key="backgroundColor" red="0.65695619579999998" green="0.17758092280000001" blue="0.1489887238" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                         <gestureRecognizers/>
@@ -73,59 +129,10 @@
                                             <outletCollection property="gestureRecognizers" destination="qO8-yc-FxU" appends="YES" id="Y7k-jo-34d"/>
                                         </connections>
                                     </collectionView>
-                                    <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="XY5-37-a1R">
-                                        <rect key="frame" x="0.0" y="622" width="414" height="196"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Word Search" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fBm-aK-9xx">
+                                        <rect key="frame" x="8" y="386" width="398" height="45"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="0.0" id="fc6-3F-vTZ">
-                                            <size key="itemSize" width="147" height="50"/>
-                                            <size key="headerReferenceSize" width="0.0" height="0.0"/>
-                                            <size key="footerReferenceSize" width="0.0" height="0.0"/>
-                                            <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                        </collectionViewFlowLayout>
-                                        <cells>
-                                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="NameCell" id="RHi-m5-ALq" customClass="NameViewCell" customModule="WordSearchShopify" customModuleProvider="target">
-                                                <rect key="frame" x="0.0" y="0.0" width="147" height="50"/>
-                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
-                                                    <rect key="frame" x="0.0" y="0.0" width="147" height="50"/>
-                                                    <autoresizingMask key="autoresizingMask"/>
-                                                    <subviews>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Shopify" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SBf-t9-rBF">
-                                                            <rect key="frame" x="0.0" y="0.0" width="147" height="50"/>
-                                                            <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="22"/>
-                                                            <color key="textColor" red="0.88386482" green="0.31923630829999999" blue="0.25486460329999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                                            <nil key="highlightedColor"/>
-                                                        </label>
-                                                    </subviews>
-                                                </view>
-                                                <constraints>
-                                                    <constraint firstAttribute="trailing" secondItem="SBf-t9-rBF" secondAttribute="trailing" id="2gM-CY-YfI"/>
-                                                    <constraint firstItem="SBf-t9-rBF" firstAttribute="leading" secondItem="RHi-m5-ALq" secondAttribute="leading" id="HGl-iS-Muf"/>
-                                                    <constraint firstItem="SBf-t9-rBF" firstAttribute="top" secondItem="RHi-m5-ALq" secondAttribute="top" id="Twj-68-S0Z"/>
-                                                    <constraint firstAttribute="bottom" secondItem="SBf-t9-rBF" secondAttribute="bottom" id="wmE-Ho-YpG"/>
-                                                </constraints>
-                                                <connections>
-                                                    <outlet property="name" destination="SBf-t9-rBF" id="0dz-Fi-T2Y"/>
-                                                </connections>
-                                            </collectionViewCell>
-                                        </cells>
-                                        <connections>
-                                            <outlet property="dataSource" destination="BYZ-38-t0r" id="d3p-9r-xvN"/>
-                                            <outlet property="delegate" destination="BYZ-38-t0r" id="ygA-Mk-Uvb"/>
-                                        </connections>
-                                    </collectionView>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Hints: 2" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XSn-aw-jjK" userLabel="Hints Remaining">
-                                        <rect key="frame" x="8" y="575" width="398" height="33"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="20"/>
-                                        <color key="textColor" red="0.88386482" green="0.31923630829999999" blue="0.25486460329999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Words Found: 0" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bTd-lg-gpC" userLabel="Words Found">
-                                        <rect key="frame" x="8" y="575" width="398" height="33"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                        <fontDescription key="fontDescription" type="system" weight="black" pointSize="30"/>
                                         <color key="textColor" red="0.88386482" green="0.31923630829999999" blue="0.25486460329999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                         <nil key="highlightedColor"/>
                                     </label>
@@ -134,13 +141,21 @@
                             </view>
                         </subviews>
                         <color key="backgroundColor" red="0.9677715898" green="0.81163412329999995" blue="0.82352918389999996" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                        <constraints>
+                            <constraint firstItem="Z4k-H8-40S" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="86t-LA-JlI"/>
+                            <constraint firstItem="Z4k-H8-40S" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="LCl-pB-YOe"/>
+                            <constraint firstItem="Z4k-H8-40S" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="hzi-XP-Rcy"/>
+                            <constraint firstItem="Z4k-H8-40S" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="y4e-Sy-uX1"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <connections>
                         <outlet property="gridView" destination="c1u-ZP-IB8" id="PKo-mn-vWh"/>
                         <outlet property="hintsRemainingLabel" destination="XSn-aw-jjK" id="Wp4-1x-SQG"/>
                         <outlet property="namesView" destination="XY5-37-a1R" id="g0o-rp-7MZ"/>
-                        <outlet property="safeFrame" destination="gfE-uh-lAK" id="lKd-Nz-zHZ"/>
+                        <outlet property="resetButton" destination="zUf-wf-ELP" id="5GY-L1-xAt"/>
+                        <outlet property="safeArea" destination="Z4k-H8-40S" id="PzV-Ib-U1d"/>
+                        <outlet property="wordSearchLabel" destination="fBm-aK-9xx" id="gkb-B8-feN"/>
                         <outlet property="wordsFound" destination="bTd-lg-gpC" id="oAs-gL-pld"/>
                     </connections>
                 </viewController>
@@ -154,4 +169,7 @@
             <point key="canvasLocation" x="131.8840579710145" y="115.84821428571428"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="restart50" width="50" height="50"/>
+    </resources>
 </document>

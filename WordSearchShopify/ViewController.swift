@@ -18,11 +18,14 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     let lightRed = UIColor(rgb: 0xffcdd2)
     let selectedRed = UIColor(rgb: 0xef5350)
     
-    @IBOutlet weak var safeFrame: UIView!
     @IBOutlet weak var gridView: UICollectionView!
     @IBOutlet weak var namesView: UICollectionView!
     @IBOutlet weak var hintsRemainingLabel: UILabel!
     @IBOutlet weak var wordsFound: UILabel!
+    @IBOutlet weak var wordSearchLabel: UILabel!
+    @IBOutlet weak var resetButton: UIButton!
+    @IBOutlet weak var safeArea: UIView!
+    
     
     
     let game = Game()
@@ -32,42 +35,25 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     var currIndex: Int = -1
     var gridCount: Int = 0
     
+    //AutoLayoutVariables
+    var topSafeHeight: CGFloat = 0
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        //Setup game
-        game.populateGrid()
-        gridView.reloadData()
-        
-        //Height and width of screen
-        let height = safeFrame.frame.height
-        let width = safeFrame.frame.width
-        let unsafeHeight = self.view.frame.height - height
-        print("Height = \(height), width = \(width), \(unsafeHeight)")
-        
-        //Setup Buttons
-        //TODO: AutoLayout button
-        let resetBtnWidth = 30
-        let resetBtnHeight = 30
-        let resetBtnX = Int(width) - resetBtnWidth - 40
-        let resetBtn = UIButton(frame: CGRect(x: resetBtnX, y: Int(unsafeHeight+25), width: resetBtnWidth, height: resetBtnHeight))
-        resetBtn.setImage(UIImage(named: "restart50"), for: .normal)
-        resetBtn.addTarget(self, action: #selector(resetLevel), for: .touchUpInside)
-        self.view.addSubview(resetBtn)
-        
-        
+    
+        layoutViews()
         
         //SetupGrid
         gridView.layer.cornerRadius = 10
         gridView.clipsToBounds = true
         
-        
-        
-        
-        
-    }
+        //Setup game
+        game.populateGrid()
+        gridView.reloadData()
     
-    @objc func resetLevel(sender: UIButton!) {
+    }
+    @IBAction func resetLevel(_ sender: Any) {
         print("RESHUFFLE")
         game.populateGrid()
         hintsRemainingLabel.text = "Hints: \(game.hintsRemaining)"
@@ -220,7 +206,10 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         if (collectionView == gridView) {
             return CGSize(width: collectionView.bounds.size.width/10, height: collectionView.bounds.size.height/10)
         } else {
-            return CGSize(width: collectionView.bounds.size.width/2, height: 40)
+//            if (UIDevice.current.orientation.isLandscape) {
+//                return CGSize(width: collectionView.bounds.size.width, height: collectionView.bounds.size.height/8)
+//            }
+            return CGSize(width: collectionView.bounds.size.width/2, height: collectionView.bounds.size.height/4)
         }
     }
     
@@ -271,6 +260,102 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         startIndex = -1
         endIndex = -1
         currIndex = -1
+    }
+    
+    override func willTransition(to newCollection: UITraitCollection, with coordinator: UIViewControllerTransitionCoordinator) {
+       layoutViews()
+
+    }
+    
+    func layoutViews() {
+        
+        //Height and width of screen
+        let height = (self.view.frame.height > self.view.frame.width)
+                        ? self.view.frame.height : self.view.frame.width
+        let width = (self.view.frame.height < self.view.frame.width)
+                        ? self.view.frame.height : self.view.frame.width
+        
+        let gridSize = width
+        print("AutoLayout: Height = \(height), Width = \(width)")
+        let wsLabelHeight = 45
+        let wsLabelWidth = 195
+        let resetBtnHeight = 25
+        let wordsFoundWidth = 140
+        let gameParametersHeight = 35 // Hints and Words Found Labels
+        let safe = 10 //Safe Distance from corners
+        
+        gridView.collectionViewLayout.invalidateLayout()
+        namesView.collectionViewLayout.invalidateLayout()
+        
+        if (UIDevice.current.orientation.isLandscape) {
+            print("Orientation: Landscape")
+
+            var topSafeHeight: CGFloat = 0 //The top inset in iPhone X models
+            if #available(iOS 11.0, *) {
+                let window = UIApplication.shared.windows[0]
+                let safeFrame = window.safeAreaLayoutGuide.layoutFrame
+                topSafeHeight = (safeFrame.minY > safeFrame.minX) ? safeFrame.minY : safeFrame.minX
+                
+            }
+            print("Height = \(height), width = \(width), \(topSafeHeight)")
+            
+            // Grid Setup
+            gridView.frame = (CGRect(x: 0, y: topSafeHeight-CGFloat(safe), width: gridSize-topSafeHeight-CGFloat(safe), height: gridSize-topSafeHeight-CGFloat(safe)))
+            
+            let remainingWidth = height - 2*topSafeHeight - gridView.frame.width - CGFloat(safe)
+            let remainingX = Int(gridView.frame.width) + safe
+            // Place Label :
+            let wsY = Int(topSafeHeight)
+            wordSearchLabel.frame = CGRect(x: remainingX, y: wsY, width: Int(remainingWidth), height: wsLabelHeight)
+            
+            //Place Button :
+            let btnY = wsY + safe
+            let btnX = Int(height) - 2*Int(topSafeHeight) - resetBtnHeight
+            resetButton.frame = CGRect(x: btnX, y: btnY,
+                                       width: resetBtnHeight, height: resetBtnHeight)
+            
+            //Place Hints and Word Found
+            let gameParametersLabelY = btnY + wsLabelHeight
+            hintsRemainingLabel.frame = CGRect(x: remainingX + safe, y: gameParametersLabelY, width: Int(remainingWidth), height: gameParametersHeight)
+            wordsFound.frame = CGRect(x: Int(height) - wordsFoundWidth - 2*Int(topSafeHeight), y: gameParametersLabelY, width: wordsFoundWidth, height: gameParametersHeight)
+            
+            // Names Setup
+            let namesGridHeight: Int = Int(width - wordsFound.frame.maxY)
+            namesView.frame = (CGRect(x: remainingX, y: Int(wordsFound.frame.maxY) - safe, width: Int(remainingWidth), height: namesGridHeight))
+            
+        } else {
+            print("Orientation: Portrait")
+            var topSafeHeight: CGFloat = 0
+            if #available(iOS 11.0, *) {
+                let window = UIApplication.shared.windows[0]
+                let safeFrame = window.safeAreaLayoutGuide.layoutFrame
+                topSafeHeight = (safeFrame.minY > safeFrame.minX) ? safeFrame.minY : safeFrame.minX
+            }
+            print("Height = \(height), width = \(width), \(topSafeHeight)")
+            
+            // Place Label :
+            wordSearchLabel.frame = CGRect(x: 0, y: 0, width: Int(width), height: wsLabelHeight)
+            
+            //Place Button :
+            let btnY = safe
+            resetButton.frame = CGRect(x: Int(width) - resetBtnHeight - safe, y: btnY,
+                                        width: resetBtnHeight, height: resetBtnHeight)
+            
+            //Place Hints and Word Found
+            let gameParametersLabelY = btnY + wsLabelHeight
+            hintsRemainingLabel.frame = CGRect(x: safe, y: gameParametersLabelY, width: Int(resetButton.frame.maxX), height: gameParametersHeight)
+            wordsFound.frame = CGRect(x: Int(width)-safe-wordsFoundWidth, y: gameParametersLabelY, width: wordsFoundWidth, height: gameParametersHeight)
+            
+            // Grid Setup
+            let gridY = CGFloat(gameParametersHeight + gameParametersLabelY)
+            gridView.frame = (CGRect(x: 0, y: gridY, width: gridSize, height: gridSize))
+            
+            // Names Setup
+            let namesGridHeight: Int = Int(height - gridView.frame.maxY - topSafeHeight)
+            let namesGridY = Int(gridView.frame.maxY)
+            namesView.frame = (CGRect(x: 0, y: namesGridY, width: Int(gridSize), height: namesGridHeight))
+            
+        }
     }
     
 
