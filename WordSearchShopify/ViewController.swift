@@ -28,8 +28,9 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     let game = Game()
     var startIndex: Int = -1
     var endIndex: Int = -1
-    
+    //Swipe Variables
     var currIndex: Int = -1
+    var gridCount: Int = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -180,6 +181,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
             startIndex = index
             currIndex = index
             print("BEGAN AT POINT: \(index)")
+            gridCount += 1
             game.updateStatusAtIndex(status: .selected, index: startIndex)
             break
         case .changed:
@@ -190,6 +192,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
             fillGapsBetween(.selected, currIndex, index)
             currIndex = index
             print("CHANGED AT POINT: \(index)")
+            gridCount += 1
             game.updateStatusAtIndex(status: .selected, index: currIndex)
             break
         case .ended:
@@ -203,6 +206,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
             }
             
             print("ENDED AT POINT: \(endIndex)")
+            gridCount += 1
             game.updateStatusAtIndex(status: .selected, index: endIndex)
             checkWord()
             break
@@ -241,6 +245,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     func checkWord() {
         let word: String = game.getWordBetweenIndexes(startIndex, endIndex)
         print("Word Selected = \(word)")
+        
         if (game.foundWord(word)) {
             game.updateStatusBetween(.found, startIndex, endIndex)
             print("Found word!")
@@ -255,6 +260,12 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         } else {
             print("Did not find word!")
             game.updateStatusBetween(.notFound, startIndex, endIndex)
+        }
+        
+        //EdgeCase: If user swipes back, need to initiate clean up
+        if gridCount != word.count {
+            print("Cleaning Up Matrix! ")
+            game.initiateCleanUp()
         }
         
         startIndex = -1

@@ -25,7 +25,7 @@ class Game {
           "Variable",
           "Java",
           "Mobile",
-          "IOS"
+          "iOS"
         ]
     
     let bigWords: [String] = ["ObjectiveC","Variable"]
@@ -335,6 +335,29 @@ class Game {
         let endIndex = getIndex(row: endRow, col: endCol)
         
         updateStatusBetween(.found, startIndex, endIndex)
+    }
+    
+    func initiateCleanUp() { //Helper functions to clean up all the selected states
+        for i in 0..<size {
+            for j in 0..<size {
+                if (grid[i][j].status == .selected) {
+                    grid[i][j].status = .notFound
+                }
+            }
+        }
+    }
+    
+    func countGridsWith(_ status: gridStatus) -> Int { //Helper function to count selected
+        var count = 0
+        for i in 0..<size {
+            for j in 0..<size {
+                if (grid[i][j].status == status) {
+                    count+=1
+                }
+            }
+        }
+        return count
+        
     }
     
 }
