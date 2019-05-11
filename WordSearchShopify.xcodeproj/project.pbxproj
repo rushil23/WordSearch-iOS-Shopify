@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 48;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -14,6 +14,10 @@
 		CE0A728B22823C8A009957D8 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CE0A728922823C8A009957D8 /* LaunchScreen.storyboard */; };
 		CE0A729622823C8A009957D8 /* WordSearchShopifyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE0A729522823C8A009957D8 /* WordSearchShopifyTests.swift */; };
 		CE0A72A122823C8A009957D8 /* WordSearchShopifyUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE0A72A022823C8A009957D8 /* WordSearchShopifyUITests.swift */; };
+		CEA32E002284D9B00095AE25 /* GridViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEA32DFF2284D9B00095AE25 /* GridViewCell.swift */; };
+		CEA32E02228504860095AE25 /* GridBlock.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEA32E01228504860095AE25 /* GridBlock.swift */; };
+		CEA32E062285D81E0095AE25 /* NameViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEA32E052285D81E0095AE25 /* NameViewCell.swift */; };
+		CEA32E08228601F70095AE25 /* Word.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEA32E07228601F70095AE25 /* Word.swift */; };
 		CEECF24B22833DA100B853FD /* Array2D.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEECF24822833DA100B853FD /* Array2D.swift */; };
 		CEECF24C22833DA100B853FD /* ArrayShuffle.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEECF24922833DA100B853FD /* ArrayShuffle.swift */; };
 		CEECF24D22833DA100B853FD /* CrosswordsGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEECF24A22833DA100B853FD /* CrosswordsGenerator.swift */; };
@@ -51,6 +55,10 @@
 		CE0A729C22823C8A009957D8 /* WordSearchShopifyUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WordSearchShopifyUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		CE0A72A022823C8A009957D8 /* WordSearchShopifyUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordSearchShopifyUITests.swift; sourceTree = "<group>"; };
 		CE0A72A222823C8A009957D8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		CEA32DFF2284D9B00095AE25 /* GridViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridViewCell.swift; sourceTree = "<group>"; };
+		CEA32E01228504860095AE25 /* GridBlock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridBlock.swift; sourceTree = "<group>"; };
+		CEA32E052285D81E0095AE25 /* NameViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NameViewCell.swift; sourceTree = "<group>"; };
+		CEA32E07228601F70095AE25 /* Word.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Word.swift; sourceTree = "<group>"; };
 		CEECF24822833DA100B853FD /* Array2D.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Array2D.swift; sourceTree = "<group>"; };
 		CEECF24922833DA100B853FD /* ArrayShuffle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArrayShuffle.swift; sourceTree = "<group>"; };
 		CEECF24A22833DA100B853FD /* CrosswordsGenerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CrosswordsGenerator.swift; sourceTree = "<group>"; };
@@ -108,11 +116,15 @@
 				CEECF24E22833DC700B853FD /* CrosswordsGeneratorAPI */,
 				CE0A728022823C88009957D8 /* AppDelegate.swift */,
 				CE0A728222823C88009957D8 /* ViewController.swift */,
+				CEA32E052285D81E0095AE25 /* NameViewCell.swift */,
+				CEECF24F2283958100B853FD /* Game.swift */,
+				CEA32E01228504860095AE25 /* GridBlock.swift */,
+				CEA32E07228601F70095AE25 /* Word.swift */,
+				CEA32DFF2284D9B00095AE25 /* GridViewCell.swift */,
 				CE0A728422823C88009957D8 /* Main.storyboard */,
 				CE0A728722823C8A009957D8 /* Assets.xcassets */,
 				CE0A728922823C8A009957D8 /* LaunchScreen.storyboard */,
 				CE0A728C22823C8A009957D8 /* Info.plist */,
-				CEECF24F2283958100B853FD /* Game.swift */,
 			);
 			path = WordSearchShopify;
 			sourceTree = "<group>";
@@ -213,19 +225,22 @@
 				TargetAttributes = {
 					CE0A727C22823C87009957D8 = {
 						CreatedOnToolsVersion = 10.2.1;
+						ProvisioningStyle = Automatic;
 					};
 					CE0A729022823C8A009957D8 = {
 						CreatedOnToolsVersion = 10.2.1;
+						ProvisioningStyle = Automatic;
 						TestTargetID = CE0A727C22823C87009957D8;
 					};
 					CE0A729B22823C8A009957D8 = {
 						CreatedOnToolsVersion = 10.2.1;
+						ProvisioningStyle = Automatic;
 						TestTargetID = CE0A727C22823C87009957D8;
 					};
 				};
 			};
 			buildConfigurationList = CE0A727822823C87009957D8 /* Build configuration list for PBXProject "WordSearchShopify" */;
-			compatibilityVersion = "Xcode 9.3";
+			compatibilityVersion = "Xcode 8.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -277,11 +292,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				CE0A728322823C88009957D8 /* ViewController.swift in Sources */,
+				CEA32E002284D9B00095AE25 /* GridViewCell.swift in Sources */,
 				CEECF24C22833DA100B853FD /* ArrayShuffle.swift in Sources */,
+				CEA32E02228504860095AE25 /* GridBlock.swift in Sources */,
 				CEECF24B22833DA100B853FD /* Array2D.swift in Sources */,
 				CEECF2502283958100B853FD /* Game.swift in Sources */,
 				CE0A728122823C88009957D8 /* AppDelegate.swift in Sources */,
+				CEA32E08228601F70095AE25 /* Word.swift in Sources */,
 				CEECF24D22833DA100B853FD /* CrosswordsGenerator.swift in Sources */,
+				CEA32E062285D81E0095AE25 /* NameViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -446,8 +465,7 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
-				SWIFT_COMPILATION_MODE = wholemodule;
-				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
@@ -459,10 +477,8 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = QWHY24TNQT;
 				INFOPLIST_FILE = WordSearchShopify/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = rushil.WordSearchShopify;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -477,10 +493,8 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = QWHY24TNQT;
 				INFOPLIST_FILE = WordSearchShopify/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = rushil.WordSearchShopify;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -495,11 +509,7 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = WordSearchShopifyTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = rushil.WordSearchShopifyTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -515,11 +525,7 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = WordSearchShopifyTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = rushil.WordSearchShopifyTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -534,11 +540,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = WordSearchShopifyUITests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = rushil.WordSearchShopifyUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -553,11 +555,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = WordSearchShopifyUITests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = rushil.WordSearchShopifyUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
