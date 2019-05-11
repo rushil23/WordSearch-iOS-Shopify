@@ -29,10 +29,11 @@
                                         <color key="textColor" red="0.88386482" green="0.31923630829999999" blue="0.25486460329999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" scrollEnabled="NO" delaysContentTouches="NO" canCancelContentTouches="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="c1u-ZP-IB8">
+                                    <collectionView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" scrollEnabled="NO" delaysContentTouches="NO" canCancelContentTouches="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="c1u-ZP-IB8">
                                         <rect key="frame" x="0.0" y="162" width="414" height="414"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <color key="backgroundColor" red="0.65695619579999998" green="0.17758092280000001" blue="0.1489887238" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                        <gestureRecognizers/>
                                         <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="Z2G-P6-g5W">
                                             <size key="itemSize" width="50" height="50"/>
                                             <size key="headerReferenceSize" width="0.0" height="0.0"/>
@@ -69,6 +70,7 @@
                                         <connections>
                                             <outlet property="dataSource" destination="BYZ-38-t0r" id="zlx-9Z-s4M"/>
                                             <outlet property="delegate" destination="BYZ-38-t0r" id="ab5-ZH-7JL"/>
+                                            <outletCollection property="gestureRecognizers" destination="qO8-yc-FxU" appends="YES" id="Y7k-jo-34d"/>
                                         </connections>
                                     </collectionView>
                                     <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="XY5-37-a1R">
@@ -143,6 +145,11 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+                <panGestureRecognizer minimumNumberOfTouches="1" id="qO8-yc-FxU">
+                    <connections>
+                        <action selector="handlePan:" destination="BYZ-38-t0r" id="SWw-HT-4YN"/>
+                    </connections>
+                </panGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="131.8840579710145" y="115.84821428571428"/>
         </scene>

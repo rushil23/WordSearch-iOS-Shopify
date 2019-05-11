@@ -26,8 +26,10 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     
     
     let game = Game()
-    var firstTap: Int = -1
-    var secondTap: Int = -1
+    var startIndex: Int = -1
+    var endIndex: Int = -1
+    
+    var currIndex: Int = -1
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -125,51 +127,25 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if (collectionView == gridView) {
             print("Grid Selected = \(indexPath.item)")
-            var indexes: [IndexPath] = []
-            if (firstTap == -1) {
-                firstTap = indexPath.item
+            if (startIndex == -1) {
+                startIndex = indexPath.item
                 game.updateStatusAtIndex(status: .selected, index: indexPath.item)
-                indexes.append(indexPath)
-            } else if (game.sameRowOrColumn(firstTap, indexPath.item) != .none) {
-                secondTap = indexPath.item
-                indexes.append(indexPath)
-                game.updateStatusAtIndex(status: .selected, index: secondTap)
+            } else if (game.sameRowOrColumn(startIndex, indexPath.item) != .none) {
+                endIndex = indexPath.item
                 
-                let word: String = game.getWordBetweenIndexes(firstTap, secondTap)
-                print("Word Selected = \(word)")
+                game.updateStatusBetween(.selected, startIndex, endIndex)
+                //Animate this function
+                checkWord()
                 
-                game.updateStatusBetween(.selected, firstTap, secondTap)
-                if (game.foundWord(word)) {
-                    game.updateStatusBetween(.found, firstTap, secondTap)
-                    print("Found word!")
-                    
-                    wordsFound.text = "Words Found: \(game.wordsFound)"
-                    
-                    if (game.wordsFound == game.count) {
-                        //Present WIN Alert
-                        presentWinAlert()
-                    }
-                    
-                } else {
-                    print("Did not find word!")
-                    game.updateStatusBetween(.notFound, firstTap, secondTap)
-                }
-                
-                gridView.reloadData()
-                namesView.reloadData()
-                
-                firstTap = -1
-                secondTap = -1
-                
+                startIndex = -1
+                endIndex = -1
             } else {
-                game.updateStatusAtIndex(status: .notFound, index: firstTap)
+                game.updateStatusAtIndex(status: .notFound, index: startIndex)
                 game.updateStatusAtIndex(status: .selected, index: indexPath.item)
-                indexes.append(indexPath)
-                indexes.append(IndexPath(item: firstTap, section: 0))
-                firstTap = indexPath.item
+                startIndex = indexPath.item
             }
             
-            gridView.reloadItems(at: indexes)
+            gridView.reloadData()
         } else {
             if (game.hintsRemaining > 0 && game.words[indexPath.item].status == .notFound) {
                 game.hintsRemaining -= 1
@@ -190,6 +166,51 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
             }
         }
     }
+    
+    @IBAction func handlePan(_ recognizer: UIPanGestureRecognizer) {
+        
+        guard let index = gridView.indexPathForItem(at: recognizer.location(in: gridView))?.item else { return }
+        if currIndex == index && recognizer.state != .ended {
+            return
+        } else if startIndex == index {
+            return
+        }
+        switch (recognizer.state) {
+        case .began:
+            startIndex = index
+            currIndex = index
+            print("BEGAN AT POINT: \(index)")
+            game.updateStatusAtIndex(status: .selected, index: startIndex)
+            break
+        case .changed:
+            if game.sameRowOrColumn(currIndex, index) == .none
+                || game.sameRowOrColumn(startIndex, index) == .none{
+                return
+            }
+            fillGapsBetween(.selected, currIndex, index)
+            currIndex = index
+            print("CHANGED AT POINT: \(index)")
+            game.updateStatusAtIndex(status: .selected, index: currIndex)
+            break
+        case .ended:
+            if game.sameRowOrColumn(currIndex, index) == .none
+                || game.sameRowOrColumn(startIndex, index) == .none{
+                endIndex = currIndex
+            } else {
+                endIndex = index
+                currIndex = index
+                fillGapsBetween(.selected, currIndex, index)
+            }
+            
+            print("ENDED AT POINT: \(endIndex)")
+            game.updateStatusAtIndex(status: .selected, index: endIndex)
+            checkWord()
+            break
+        default:
+            break
+        }
+        gridView.reloadData()
+    }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         if (collectionView == gridView) {
@@ -199,6 +220,12 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         }
     }
     
+    func fillGapsBetween(_ status:gridStatus, _ start: Int, _ end: Int) {
+        // Same cells, or adjacent cells do not have gaps in between them
+        if (start == end) || abs(start-end)==1 || abs(start-end)==10 { return }
+        game.updateStatusBetween(status, start, end)
+    }
+
     func presentWinAlert() {
         let alert = UIAlertController(title: "YOU WON!", message: "Congrats! You found all the words", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "Thats Great! :)", style: .default, handler: { action in
@@ -209,6 +236,30 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
             self.wordsFound.text = "Words Found: \(self.game.wordsFound)"
         }))
         self.present(alert, animated: true, completion: nil)
+    }
+    
+    func checkWord() {
+        let word: String = game.getWordBetweenIndexes(startIndex, endIndex)
+        print("Word Selected = \(word)")
+        if (game.foundWord(word)) {
+            game.updateStatusBetween(.found, startIndex, endIndex)
+            print("Found word!")
+            namesView.reloadData()
+            wordsFound.text = "Words Found: \(game.wordsFound)"
+            
+            if (game.wordsFound == game.count) {
+                //Present WIN Alert
+                presentWinAlert()
+            }
+            
+        } else {
+            print("Did not find word!")
+            game.updateStatusBetween(.notFound, startIndex, endIndex)
+        }
+        
+        startIndex = -1
+        endIndex = -1
+        currIndex = -1
     }
     
 
