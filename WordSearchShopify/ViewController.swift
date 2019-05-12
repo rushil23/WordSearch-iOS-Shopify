@@ -164,6 +164,11 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         }
         switch (recognizer.state) {
         case .began:
+            
+            if (startIndex != -1) {
+                game.updateStatusAtIndex(status: .notFound, index: startIndex)
+            }
+            
             startIndex = index
             currIndex = index
             print("BEGAN AT POINT: \(index)")
@@ -278,7 +283,6 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         let gridSize = width
         print("AutoLayout: Height = \(height), Width = \(width)")
         let wsLabelHeight = 45
-        let wsLabelWidth = 195
         let resetBtnHeight = 25
         let wordsFoundWidth = 140
         let gameParametersHeight = 35 // Hints and Words Found Labels

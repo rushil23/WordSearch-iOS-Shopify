@@ -124,7 +124,7 @@ class Game {
         let row = getRowCol(index: index)[0]
         let col = getRowCol(index: index)[1]
         
-        if !((status == .selected) && (grid[row][col].status == .found)) {
+        if (grid[row][col].status != .found) { //Necessary check to never override found grids.
             grid[row][col].status = status
             grid1D[index].status = status
         }
