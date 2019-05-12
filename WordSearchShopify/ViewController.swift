@@ -17,6 +17,9 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     let mediumRed = UIColor(rgb: 0xf44336)
     let lightRed = UIColor(rgb: 0xffcdd2)
     let selectedRed = UIColor(rgb: 0xef5350)
+    let partyColors: [UIColor] = [.green, .blue, .red, .yellow, .magenta , .purple]
+    
+    
     
     @IBOutlet weak var gridView: UICollectionView!
     @IBOutlet weak var namesView: UICollectionView!
@@ -29,6 +32,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     
     
     let game = Game()
+    var userHasWon: Bool = false
     var startIndex: Int = -1
     var endIndex: Int = -1
     //Swipe Variables
@@ -55,6 +59,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     @IBAction func resetLevel(_ sender: Any) {
         print("RESHUFFLE")
         game.populateGrid()
+        userHasWon = false
         hintsRemainingLabel.text = "Hints: \(game.hintsRemaining)"
         wordsFound.text = "Words Found: \(game.wordsFound)"
         gridView.reloadData()
@@ -74,12 +79,11 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
             grid.character.text = gridBlock.character
             
             switch gridBlock.status {
-                
                 case .notFound:
                     grid.backgroundColor = darkRed
                     break
                 case .selected:
-                    grid.backgroundColor = selectedRed
+                    grid.backgroundColor = userHasWon ? partyColors.randomElement() : selectedRed
                     break
                 case .found:
                     grid.backgroundColor = selectedRed
@@ -219,6 +223,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     }
     
     func animateStatusAt(status: gridStatus, _ index: Int) {
+        if (index<0) { return }
         animateStatusBetween(status: status, index, index)
     }
     
@@ -250,13 +255,25 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     }
 
     func presentWinAlert() {
+        var curr = -1
+        let partyColorsTimer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { (t) in
+            self.animateStatusAt(status: .notFound, curr)
+            curr = Int.random(in: 0..<100)
+            self.userHasWon = true
+            self.animateStatusAt(status: .selected, curr)
+        }
+    
         let alert = UIAlertController(title: "YOU WON!", message: "Congrats! You found all the words", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "Thats Great! :)", style: .default, handler: { action in
+            partyColorsTimer.invalidate()
+            self.userHasWon = false
             self.game.populateGrid()
-            self.gridView.reloadData()
             self.namesView.reloadData()
             self.hintsRemainingLabel.text = "Hints: \(self.game.hintsRemaining)"
             self.wordsFound.text = "Words Found: \(self.game.wordsFound)"
+            self.gridView.performBatchUpdates({
+                self.gridView.reloadSections(IndexSet(integer: 0))
+            }, completion: nil)
         }))
         self.present(alert, animated: true, completion: nil)
     }
