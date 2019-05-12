@@ -227,6 +227,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     
     func animateStatusAt(status: gridStatus, _ index: Int) {
         if (index<0) { return }
+        playHapticFeedback()
         animateStatusBetween(status: status, index, index)
     }
     
@@ -279,6 +280,11 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
             }, completion: nil)
         }))
         self.present(alert, animated: true, completion: nil)
+    }
+    
+    func playHapticFeedback() {
+        let selectionGenerator = UISelectionFeedbackGenerator()
+        selectionGenerator.selectionChanged()
     }
     
     func checkWord() {

@@ -14,6 +14,18 @@ enum RowColumn {
     case none
 }
 
+enum ResultsDirection {
+    case vertical
+    case horizontal
+}
+
+struct WordResults {
+    public var word = ""
+    public var column = 0
+    public var row = 0
+    public var direction: ResultsDirection = .vertical
+}
+
 class Game {
     
     let wordList: [String] =
@@ -27,17 +39,17 @@ class Game {
           "Mobile",
           "iOS"
         ]
-    
-    let bigWords: [String] = ["ObjectiveC","Variable"]
+
     var words: [Word] = []
     
     var wordsFound = 0
     let count = 8
-    var hintsRemaining: Int = 2
-    let MAX_ATTEMPTS = 100 //Increase this value if words are missing
+    let HINTS = 8
+    var hintsRemaining: Int = 8
+    let MAX_ATTEMPTS = 200 //Increase this value if words are missing
     
     var size: Int = 10 // By default size of the matrix is 10
-    var results: Array<CrosswordsGenerator.Word> = []
+    var results: Array<WordResults> = []
     
     var grid: [[GridBlock]] = []
     var grid1D: [GridBlock] = []
@@ -50,42 +62,22 @@ class Game {
     }
     
     func populateGrid() {
+        //Initialize Parameters
         initializeWords()
         wordsFound = 0
-        hintsRemaining = 2
+        hintsRemaining = HINTS
+        results = []
         
         //Initialize 2D Grid based on size
         grid = Array(repeating: Array(repeating: GridBlock(), count: size), count: size)
-        
-        // Convert words to upper case
-        var words:[String] = wordList.map { Bool.random() ? $0.uppercased() : String($0.uppercased().reversed()) } //Randomize words being placed in reverse or not.
-        words.shuffle() //Randomize order of placing words
-        
-        let cwGen = CrosswordsGenerator(columns: size, rows: size, words: words)
-        cwGen.fillAllWords = true
-        cwGen.generate()
-        while cwGen.result.count != 6 {
-            cwGen.generate()
-        }
-        
-        results = cwGen.result
-        
-        print(results)
-        for i in 0...(size-1) {
-            for j in 0...(size-1) {
-                let char = cwGen.getCell(j+1, row: i+1)
-                if char != "-" {
-                    grid[i][j] = GridBlock(character: char, status: .notFound)
-                } else {
+
+        for i in 0..<size {
+            for j in 0..<size {
                     grid[i][j] = GridBlock(character: "-", status: .notFound)
-                }
             }
         }
-        
         placeWords()
-        
-        //TODO: Fill in remaining characters
-        
+        printGrid()
         for i in 0..<size {
             for j in 0..<size {
                 if grid[i][j].character == "-" {
@@ -108,7 +100,7 @@ class Game {
         return nil
     }
     
-    func getResults() -> [CrosswordsGenerator.Word]? {
+    func getResults() -> [WordResults]? {
         if results.count > 0 {
             return results
         }
@@ -240,17 +232,31 @@ class Game {
         return false
     }
     
-    func isColliding(_ size: Int, _ vertical: Bool, _ row: Int, _ col: Int) -> Bool {
+    func isColliding(_ word: String, _ vertical: Bool, _ row: Int, _ col: Int) -> Bool {
+        let size = word.count
+        let chars = Array(word)
+        
         if (vertical) {
             for i in row..<(row+size) {
                 if (grid[i][col].character != "-") {
-                    return true
+                    
+                    if (grid[i][col].character == String(chars[i-row])) {
+                        print("Overlap Found!: at \(chars[i-row]), for word \(word)")
+                    } else {
+                        print("Collision: Word = \(word) : \(grid[i][col].character)")
+                        return true
+                    }
                 }
             }
         } else {
             for i in col..<(col+size) {
                 if (grid[row][i].character != "-") {
-                    return true
+                    print("test: Word = \(word) : \(grid[row][i].character)")
+                    if (grid[row][i].character == String(chars[i-col])) {
+                        print("test: COLLISION! at \(chars[i-col]), for word \(word)")
+                    } else {
+                        return true
+                    }
                 }
             }
         }
@@ -272,8 +278,7 @@ class Game {
     
     func placeWords() { // Function to place all the words in the grid
         
-        let words = bigWords.map{ Bool.random() ? $0.uppercased() : String($0.uppercased().reversed()) }
-        
+        let words = wordList.map{ Bool.random() ? $0.uppercased() : String($0.uppercased().reversed()) }
         for word in words {
             for i in 1...MAX_ATTEMPTS {
                 print("Iteration Number: \(i) for \(word)")
@@ -284,12 +289,12 @@ class Game {
                 let row = vertical ? start : position
                 let col = vertical ? position : start
                 
-                if (!isColliding(word.count, vertical, row, col)) {
+                if (!isColliding(word, vertical, row, col)) {
                     placeWordAt(word, vertical, row, col)
-                    results.append(CrosswordsGenerator.Word(word: word,
-                                                            column: (col+1),
-                                                            row: (row+1),
-                                                            direction: vertical ? .vertical : .horizontal))
+                    results.append(WordResults(word: word,
+                                               column: (col+1),
+                                               row: (row+1),
+                                               direction: vertical ? .vertical : .horizontal))
                     break
                 }
             }
@@ -298,7 +303,7 @@ class Game {
     }
     
     func revealWord(_ word: String) {
-        var result: CrosswordsGenerator.Word = CrosswordsGenerator.Word()
+        var result: WordResults = WordResults()
         for r in results {
             if (r.word == word.uppercased()) || (String(r.word.reversed()) == word.uppercased()) {
                 result = r
@@ -333,6 +338,18 @@ class Game {
         }
         return count
         
+    }
+    
+    func printGrid() {
+        print("--------- GRID ---------")
+        for i in 0..<size {
+            var row: [String] = []
+            for j in 0..<size {
+                row.append(grid[i][j].character)
+            }
+            print(row)
+        }
+        print("------------------------")
     }
     
 }
