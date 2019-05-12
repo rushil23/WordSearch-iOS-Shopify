@@ -319,7 +319,6 @@ class Game {
         let endCol = vertical ? (result.column - 1) : (result.column + result.word.count - 2)
         print(startIndex,endRow,endCol)
         let endIndex = getIndex(row: endRow, col: endCol)
-        
         updateStatusBetween(.found, startIndex, endIndex)
     }
     

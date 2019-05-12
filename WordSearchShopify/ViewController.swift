@@ -143,7 +143,10 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
                 game.revealWord(word)
                 game.words[indexPath.item].status = .found
                 
-                namesView.reloadData()
+                UIView.animate(withDuration: animationDuration) {
+                    self.namesView.reloadSections(IndexSet(integer: 0))
+                }
+                
                 gridView.reloadData()
                 
                 wordsFound.text = "Words Found: \(game.wordsFound)"
