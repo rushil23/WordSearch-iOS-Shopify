@@ -35,8 +35,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     var currIndex: Int = -1
     var gridCount: Int = 0
     
-    //AutoLayoutVariables
-    var topSafeHeight: CGFloat = 0
+    let animationDuration = 0.4 //For grid
     
     
     override func viewDidLoad() {
@@ -116,19 +115,18 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
             print("Grid Selected = \(indexPath.item)")
             if (startIndex == -1) {
                 startIndex = indexPath.item
-                game.updateStatusAtIndex(status: .selected, index: indexPath.item)
+                animateStatusAt(status: .selected, indexPath.item)
             } else if (game.sameRowOrColumn(startIndex, indexPath.item) != .none) {
                 endIndex = indexPath.item
                 
-                game.updateStatusBetween(.selected, startIndex, endIndex)
-                //Animate this function
+                animateStatusBetween(status: .selected, startIndex, endIndex)
                 checkWord()
                 
                 startIndex = -1
                 endIndex = -1
             } else {
-                game.updateStatusAtIndex(status: .notFound, index: startIndex)
-                game.updateStatusAtIndex(status: .selected, index: indexPath.item)
+                animateStatusAt(status: .notFound, startIndex)
+                animateStatusAt(status: .selected, indexPath.item)
                 startIndex = indexPath.item
             }
             
@@ -166,14 +164,14 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         case .began:
             
             if (startIndex != -1) {
-                game.updateStatusAtIndex(status: .notFound, index: startIndex)
+                animateStatusAt(status: .notFound, startIndex)
             }
             
             startIndex = index
             currIndex = index
             print("BEGAN AT POINT: \(index)")
             gridCount += 1
-            game.updateStatusAtIndex(status: .selected, index: startIndex)
+            animateStatusAt(status: .selected, startIndex)
             break
         case .changed:
             if game.sameRowOrColumn(currIndex, index) == .none
@@ -184,7 +182,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
             currIndex = index
             print("CHANGED AT POINT: \(index)")
             gridCount += 1
-            game.updateStatusAtIndex(status: .selected, index: currIndex)
+            animateStatusAt(status: .selected, currIndex)
             break
         case .ended:
             if game.sameRowOrColumn(currIndex, index) == .none
@@ -197,8 +195,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
             }
             
             print("ENDED AT POINT: \(endIndex)")
-            gridCount += 1
-            game.updateStatusAtIndex(status: .selected, index: endIndex)
+            animateStatusAt(status: .selected, endIndex)
             checkWord()
             break
         default:
@@ -211,9 +208,6 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         if (collectionView == gridView) {
             return CGSize(width: collectionView.bounds.size.width/10, height: collectionView.bounds.size.height/10)
         } else {
-//            if (UIDevice.current.orientation.isLandscape) {
-//                return CGSize(width: collectionView.bounds.size.width, height: collectionView.bounds.size.height/8)
-//            }
             return CGSize(width: collectionView.bounds.size.width/2, height: collectionView.bounds.size.height/4)
         }
     }
@@ -221,7 +215,38 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     func fillGapsBetween(_ status:gridStatus, _ start: Int, _ end: Int) {
         // Same cells, or adjacent cells do not have gaps in between them
         if (start == end) || abs(start-end)==1 || abs(start-end)==10 { return }
-        game.updateStatusBetween(status, start, end)
+        animateStatusBetween(status: status, start, end)
+    }
+    
+    func animateStatusAt(status: gridStatus, _ index: Int) {
+        animateStatusBetween(status: status, index, index)
+    }
+    
+    func animateStatusBetween(status: gridStatus, _ start: Int, _ end: Int) { //Animates the status between indexes.
+        if (status == .notFound) {
+            print("Unselecting items ! \(start) \(end)")
+        }
+        let endI = (start>end) ? start : end
+        let startI = (start>end) ? end : start
+        
+        if abs(start-end) < 10 { //Same Row
+            for i in startI...endI {
+                game.updateStatusAtIndex(status: status, index: i)
+                UIView.animate(withDuration: animationDuration, animations: {
+                    self.gridView.reloadItems(at: [IndexPath(item: i, section: 0)])
+                })
+            }
+        } else {
+            let startRow = game.getRowCol(index: startI)[0]
+            let endRow = game.getRowCol(index: endI)[0]
+            let col = game.getRowCol(index: startI)[1]
+            for i in startRow...endRow {
+                game.updateStatusAtIndex(status: status, index: game.getIndex(row: i, col: col))
+                UIView.animate(withDuration: animationDuration, animations: {
+                    self.gridView.reloadItems(at: [IndexPath(item: self.game.getIndex(row: i, col: col), section: 0)])
+                })
+            }
+        }
     }
 
     func presentWinAlert() {
@@ -253,18 +278,30 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
             
         } else {
             print("Did not find word!")
-            game.updateStatusBetween(.notFound, startIndex, endIndex)
+            animateStatusBetween(status: .notFound, startIndex, endIndex)
         }
         
         //EdgeCase: If user swipes back, need to initiate clean up
-        if gridCount != word.count {
-            print("Cleaning Up Matrix! ")
-            game.initiateCleanUp()
+        if (gridCount != word.count && gridCount>0) {
+            gridCount = 0
+            print("Cleaning Up Matrix | Grid Count = \(gridCount) for Word = \(word)")
+            initiateCleanUp()
         }
         
         startIndex = -1
         endIndex = -1
         currIndex = -1
+    }
+    
+    func initiateCleanUp() { //Helper functions to clean up all the selected states
+        for i in 0..<game.size {
+            for j in 0..<game.size {
+                if (game.grid[i][j].status == .selected) {
+                    game.grid[i][j].status = .notFound
+                    gridView.reloadItems(at: [IndexPath(item: game.getIndex(row: i, col: j), section: 0)])
+                }
+            }
+        }
     }
     
     override func willTransition(to newCollection: UITraitCollection, with coordinator: UIViewControllerTransitionCoordinator) {

@@ -132,36 +132,22 @@ class Game {
         
     }
     
-    func updateStatusBetween(_ status: gridStatus, _ i1: Int, _ i2: Int) {
-        var r1: Int = getRowCol(index: i1)[0]
-        var c1: Int = getRowCol(index: i1)[1]
-        var r2: Int = getRowCol(index: i2)[0]
-        var c2: Int = getRowCol(index: i2)[1]
+    func updateStatusBetween(_ status: gridStatus, _ start: Int, _ end: Int) {
         
-        let rowcolumn = sameRowOrColumn(i1,i2)
-        switch rowcolumn {
-        case .row:
-            if (c1 > c2) {
-                (c1,c2) = (c2,c1)
+        let endI = (start>end) ? start : end
+        let startI = (start>end) ? end : start
+        
+        if abs(start-end) < 10 { //Same Row
+            for i in startI...endI {
+                updateStatusAtIndex(status: status, index: i)
             }
-            for i in c1...c2 {
-                if (grid[r1][i].status != .found) {
-                    updateStatusAtIndex(status: status, index: getIndex(row: r1, col: i))
-                }
+        } else {
+            let startRow = getRowCol(index: startI)[0]
+            let endRow = getRowCol(index: endI)[0]
+            let col = getRowCol(index: startI)[1]
+            for i in startRow...endRow {
+                updateStatusAtIndex(status: status, index: getIndex(row: i, col: col))
             }
-            break
-        case .column:
-            if (r1 > r2) {
-                (r1,r2) = (r2,r1)
-            }
-            for i in r1...r2 {
-                if (grid[i][c1].status != .found) {
-                    updateStatusAtIndex(status: status, index: getIndex(row: i, col: c1))
-                }
-            }
-            break
-        case .none:
-            break
         }
     }
     
@@ -335,16 +321,6 @@ class Game {
         let endIndex = getIndex(row: endRow, col: endCol)
         
         updateStatusBetween(.found, startIndex, endIndex)
-    }
-    
-    func initiateCleanUp() { //Helper functions to clean up all the selected states
-        for i in 0..<size {
-            for j in 0..<size {
-                if (grid[i][j].status == .selected) {
-                    grid[i][j].status = .notFound
-                }
-            }
-        }
     }
     
     func countGridsWith(_ status: gridStatus) -> Int { //Helper function to count selected
