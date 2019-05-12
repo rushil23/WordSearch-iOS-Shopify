@@ -1,5 +1,5 @@
 //
-//  NameViewCell.swift
+//  WordsViewCell.swift
 //  WordSearchShopify
 //
 //  Created by Rushil on 2019-05-10.
@@ -8,6 +8,6 @@
 
 import UIKit
 
-class NameViewCell: UICollectionViewCell {
+class WordsViewCell: UICollectionViewCell {
     @IBOutlet weak var name: UILabel!
 }

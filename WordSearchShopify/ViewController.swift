@@ -92,22 +92,22 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
             
             return grid
         } else {
-            let nameCell = wordsView.dequeueReusableCell(withReuseIdentifier: "NameCell", for: indexPath) as! NameViewCell
+            let nameCell = wordsView.dequeueReusableCell(withReuseIdentifier: "NameCell", for: indexPath) as! WordsViewCell
             
             let words = game.words
             
             nameCell.name.text = words[indexPath.item].word
             let status = words[indexPath.item].status
             nameCell.name.textColor = mediumRed
+            nameCell.name.font = UIFont.systemFont(ofSize: 26)
+            
             
             if (status == .found) {
                 let attributeString: NSMutableAttributedString =  NSMutableAttributedString(string: words[indexPath.item].word)
                 attributeString.addAttribute(NSAttributedString.Key.strikethroughStyle, value: 2, range: NSMakeRange(0, attributeString.length))
                 nameCell.name.attributedText = attributeString
-            } else {
-                nameCell.name.font = UIFont.systemFont(ofSize: 26)
             }
-            
+        
             return nameCell
             
         }

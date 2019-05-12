@@ -16,7 +16,7 @@
 		CE0A72A122823C8A009957D8 /* WordSearchShopifyUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE0A72A022823C8A009957D8 /* WordSearchShopifyUITests.swift */; };
 		CEA32E002284D9B00095AE25 /* GridViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEA32DFF2284D9B00095AE25 /* GridViewCell.swift */; };
 		CEA32E02228504860095AE25 /* GridBlock.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEA32E01228504860095AE25 /* GridBlock.swift */; };
-		CEA32E062285D81E0095AE25 /* NameViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEA32E052285D81E0095AE25 /* NameViewCell.swift */; };
+		CEA32E062285D81E0095AE25 /* WordsViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEA32E052285D81E0095AE25 /* WordsViewCell.swift */; };
 		CEA32E08228601F70095AE25 /* Word.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEA32E07228601F70095AE25 /* Word.swift */; };
 		CEECF24B22833DA100B853FD /* Array2D.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEECF24822833DA100B853FD /* Array2D.swift */; };
 		CEECF24C22833DA100B853FD /* ArrayShuffle.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEECF24922833DA100B853FD /* ArrayShuffle.swift */; };
@@ -57,7 +57,7 @@
 		CE0A72A222823C8A009957D8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		CEA32DFF2284D9B00095AE25 /* GridViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridViewCell.swift; sourceTree = "<group>"; };
 		CEA32E01228504860095AE25 /* GridBlock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridBlock.swift; sourceTree = "<group>"; };
-		CEA32E052285D81E0095AE25 /* NameViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NameViewCell.swift; sourceTree = "<group>"; };
+		CEA32E052285D81E0095AE25 /* WordsViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordsViewCell.swift; sourceTree = "<group>"; };
 		CEA32E07228601F70095AE25 /* Word.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Word.swift; sourceTree = "<group>"; };
 		CEECF24822833DA100B853FD /* Array2D.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Array2D.swift; sourceTree = "<group>"; };
 		CEECF24922833DA100B853FD /* ArrayShuffle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArrayShuffle.swift; sourceTree = "<group>"; };
@@ -116,8 +116,8 @@
 				CEECF24E22833DC700B853FD /* CrosswordsGeneratorAPI */,
 				CE0A728022823C88009957D8 /* AppDelegate.swift */,
 				CE0A728222823C88009957D8 /* ViewController.swift */,
-				CEA32E052285D81E0095AE25 /* NameViewCell.swift */,
 				CEECF24F2283958100B853FD /* Game.swift */,
+				CEA32E052285D81E0095AE25 /* WordsViewCell.swift */,
 				CEA32E01228504860095AE25 /* GridBlock.swift */,
 				CEA32E07228601F70095AE25 /* Word.swift */,
 				CEA32DFF2284D9B00095AE25 /* GridViewCell.swift */,
@@ -300,7 +300,7 @@
 				CE0A728122823C88009957D8 /* AppDelegate.swift in Sources */,
 				CEA32E08228601F70095AE25 /* Word.swift in Sources */,
 				CEECF24D22833DA100B853FD /* CrosswordsGenerator.swift in Sources */,
-				CEA32E062285D81E0095AE25 /* NameViewCell.swift in Sources */,
+				CEA32E062285D81E0095AE25 /* WordsViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
