@@ -22,7 +22,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     
     
     @IBOutlet weak var gridView: UICollectionView!
-    @IBOutlet weak var namesView: UICollectionView!
+    @IBOutlet weak var wordsView: UICollectionView!
     @IBOutlet weak var hintsRemainingLabel: UILabel!
     @IBOutlet weak var wordsFound: UILabel!
     @IBOutlet weak var wordSearchLabel: UILabel!
@@ -63,7 +63,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         hintsRemainingLabel.text = "Hints: \(game.hintsRemaining)"
         wordsFound.text = "Words Found: \(game.wordsFound)"
         gridView.reloadData()
-        namesView.reloadData()
+        wordsView.reloadData()
     }
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -92,7 +92,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
             
             return grid
         } else {
-            let nameCell = namesView.dequeueReusableCell(withReuseIdentifier: "NameCell", for: indexPath) as! NameViewCell
+            let nameCell = wordsView.dequeueReusableCell(withReuseIdentifier: "NameCell", for: indexPath) as! NameViewCell
             
             let words = game.words
             
@@ -144,7 +144,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
                 game.words[indexPath.item].status = .found
                 
                 UIView.animate(withDuration: animationDuration) {
-                    self.namesView.reloadSections(IndexSet(integer: 0))
+                    self.wordsView.reloadSections(IndexSet(integer: 0))
                 }
                 
                 gridView.reloadData()
@@ -271,7 +271,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
             partyColorsTimer.invalidate()
             self.userHasWon = false
             self.game.populateGrid()
-            self.namesView.reloadData()
+            self.wordsView.reloadData()
             self.hintsRemainingLabel.text = "Hints: \(self.game.hintsRemaining)"
             self.wordsFound.text = "Words Found: \(self.game.wordsFound)"
             self.gridView.performBatchUpdates({
@@ -288,7 +288,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         if (game.foundWord(word)) {
             game.updateStatusBetween(.found, startIndex, endIndex)
             print("Found word!")
-            namesView.reloadData()
+            wordsView.reloadData()
             wordsFound.text = "Words Found: \(game.wordsFound)"
             
             if (game.wordsFound == game.count) {
@@ -346,7 +346,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         let safe = 10 //Safe Distance from corners
         
         gridView.collectionViewLayout.invalidateLayout()
-        namesView.collectionViewLayout.invalidateLayout()
+        wordsView.collectionViewLayout.invalidateLayout()
         
         if (UIDevice.current.orientation.isLandscape) {
             print("Orientation: Landscape")
@@ -382,7 +382,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
             
             // Names Setup
             let namesGridHeight: Int = Int(width - wordsFound.frame.maxY)
-            namesView.frame = (CGRect(x: remainingX, y: Int(wordsFound.frame.maxY) - safe, width: Int(remainingWidth), height: namesGridHeight))
+            wordsView.frame = (CGRect(x: remainingX, y: Int(wordsFound.frame.maxY) - safe, width: Int(remainingWidth), height: namesGridHeight))
             
         } else {
             print("Orientation: Portrait")
@@ -414,7 +414,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
             // Names Setup
             let namesGridHeight: Int = Int(height - gridView.frame.maxY - topSafeHeight)
             let namesGridY = Int(gridView.frame.maxY)
-            namesView.frame = (CGRect(x: 0, y: namesGridY, width: Int(gridSize), height: namesGridHeight))
+            wordsView.frame = (CGRect(x: 0, y: namesGridY, width: Int(gridSize), height: namesGridHeight))
             
         }
     }

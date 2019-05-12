@@ -22,21 +22,21 @@
                                 <rect key="frame" x="0.0" y="44" width="414" height="818"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Words Found: 0" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bTd-lg-gpC" userLabel="Words Found">
-                                        <rect key="frame" x="137" y="392" width="140" height="33"/>
+                                        <rect key="frame" x="266" y="69" width="140" height="33"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                         <color key="textColor" red="0.88386482" green="0.31923630829999999" blue="0.25486460329999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Hints: 2" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XSn-aw-jjK" userLabel="Hints Remaining">
-                                        <rect key="frame" x="169" y="392" width="75" height="33"/>
+                                        <rect key="frame" x="7" y="69" width="75" height="33"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                         <color key="textColor" red="0.88386482" green="0.31923630829999999" blue="0.25486460329999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zUf-wf-ELP">
-                                        <rect key="frame" x="194" y="396" width="25" height="25"/>
+                                        <rect key="frame" x="380" y="10" width="25" height="25"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <state key="normal" image="restart50"/>
                                         <connections>
@@ -44,7 +44,7 @@
                                         </connections>
                                     </button>
                                     <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="XY5-37-a1R">
-                                        <rect key="frame" x="0.0" y="257" width="414" height="304"/>
+                                        <rect key="frame" x="-1" y="525" width="414" height="304"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="fc6-3F-vTZ">
@@ -85,8 +85,15 @@
                                             <outlet property="delegate" destination="BYZ-38-t0r" id="ygA-Mk-Uvb"/>
                                         </connections>
                                     </collectionView>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Word Search" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fBm-aK-9xx">
+                                        <rect key="frame" x="7" y="0.0" width="398" height="45"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="system" weight="black" pointSize="30"/>
+                                        <color key="textColor" red="0.88386482" green="0.31923630829999999" blue="0.25486460329999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
                                     <collectionView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" scrollEnabled="NO" delaysContentTouches="NO" canCancelContentTouches="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="c1u-ZP-IB8">
-                                        <rect key="frame" x="0.0" y="202" width="414" height="414"/>
+                                        <rect key="frame" x="-1" y="103" width="414" height="414"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <color key="backgroundColor" red="0.65695619579999998" green="0.17758092280000001" blue="0.1489887238" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                         <gestureRecognizers/>
@@ -129,13 +136,6 @@
                                             <outletCollection property="gestureRecognizers" destination="qO8-yc-FxU" appends="YES" id="Y7k-jo-34d"/>
                                         </connections>
                                     </collectionView>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Word Search" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fBm-aK-9xx">
-                                        <rect key="frame" x="8" y="386" width="398" height="45"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <fontDescription key="fontDescription" type="system" weight="black" pointSize="30"/>
-                                        <color key="textColor" red="0.88386482" green="0.31923630829999999" blue="0.25486460329999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </view>
@@ -152,11 +152,11 @@
                     <connections>
                         <outlet property="gridView" destination="c1u-ZP-IB8" id="PKo-mn-vWh"/>
                         <outlet property="hintsRemainingLabel" destination="XSn-aw-jjK" id="Wp4-1x-SQG"/>
-                        <outlet property="namesView" destination="XY5-37-a1R" id="g0o-rp-7MZ"/>
                         <outlet property="resetButton" destination="zUf-wf-ELP" id="5GY-L1-xAt"/>
                         <outlet property="safeArea" destination="Z4k-H8-40S" id="PzV-Ib-U1d"/>
                         <outlet property="wordSearchLabel" destination="fBm-aK-9xx" id="gkb-B8-feN"/>
                         <outlet property="wordsFound" destination="bTd-lg-gpC" id="oAs-gL-pld"/>
+                        <outlet property="wordsView" destination="XY5-37-a1R" id="g0o-rp-7MZ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
