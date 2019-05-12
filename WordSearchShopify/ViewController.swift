@@ -99,16 +99,15 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
             nameCell.name.text = words[indexPath.item].word
             let status = words[indexPath.item].status
             nameCell.name.textColor = mediumRed
-            nameCell.name.font = UIFont.systemFont(ofSize: 24)
-            
-            
+
             if (status == .found) {
                 let attributeString: NSMutableAttributedString =  NSMutableAttributedString(string: words[indexPath.item].word)
                 attributeString.addAttribute(NSAttributedString.Key.strikethroughStyle, value: 2, range: NSMakeRange(0, attributeString.length))
                 nameCell.name.attributedText = attributeString
                 nameCell.name.font = UIFont.systemFont(ofSize: 22)
+            } else {
+                nameCell.name.font = UIFont.systemFont(ofSize: 24)
             }
-        
             return nameCell
             
         }
