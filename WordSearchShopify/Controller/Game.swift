@@ -251,10 +251,11 @@ class Game {
         } else {
             for i in col..<(col+size) {
                 if (grid[row][i].character != "-") {
-                    print("test: Word = \(word) : \(grid[row][i].character)")
+                    
                     if (grid[row][i].character == String(chars[i-col])) {
-                        print("test: COLLISION! at \(chars[i-col]), for word \(word)")
+                        print("Overlap Found! at \(chars[i-col]), for word \(word)")
                     } else {
+                        print("Collision: Word = \(word) : \(grid[row][i].character)")
                         return true
                     }
                 }
