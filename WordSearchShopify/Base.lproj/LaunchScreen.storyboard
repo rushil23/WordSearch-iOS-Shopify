@@ -18,29 +18,16 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="      Word" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ren-ew-SA9">
-                                <rect key="frame" x="0.0" y="64" width="414" height="778"/>
-                                <fontDescription key="fontDescription" type="system" weight="black" pointSize="60"/>
-                                <color key="textColor" red="0.88386482000350952" green="0.31923630833625793" blue="0.25486460328102112" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="     Search" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KYn-AS-cDF">
-                                <rect key="frame" x="0.0" y="172" width="414" height="665"/>
-                                <fontDescription key="fontDescription" type="system" weight="black" pointSize="60"/>
-                                <color key="textColor" red="0.88386482" green="0.31923630829999999" blue="0.25486460329999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                <nil key="highlightedColor"/>
-                            </label>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="WordSearch5Logo" translatesAutoresizingMaskIntoConstraints="NO" id="vED-jT-gmC">
+                                <rect key="frame" x="0.0" y="44" width="414" height="818"/>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" red="0.96777158975601196" green="0.8116341233253479" blue="0.82352918386459351" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                         <constraints>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="ren-ew-SA9" secondAttribute="trailing" id="2dX-GQ-hop"/>
-                            <constraint firstItem="KYn-AS-cDF" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="6ON-rh-I79"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="ren-ew-SA9" secondAttribute="bottom" constant="20" id="H6L-PH-yIh"/>
-                            <constraint firstItem="KYn-AS-cDF" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="LHd-qV-0hR"/>
-                            <constraint firstItem="ren-ew-SA9" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="20" id="OWF-Xy-Swn"/>
-                            <constraint firstItem="KYn-AS-cDF" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="128" id="Qfw-Pr-7Rv"/>
-                            <constraint firstItem="ren-ew-SA9" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="eSa-i7-Ndh"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="KYn-AS-cDF" secondAttribute="bottom" constant="25" id="r7q-Ot-cZj"/>
+                            <constraint firstItem="vED-jT-gmC" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="0VE-vf-Vui"/>
+                            <constraint firstItem="vED-jT-gmC" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="4IT-vs-YAA"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="vED-jT-gmC" secondAttribute="trailing" id="BJt-vb-gj4"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="vED-jT-gmC" secondAttribute="bottom" id="kPq-0P-wmy"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
@@ -50,4 +37,7 @@
             <point key="canvasLocation" x="52.173913043478265" y="375"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="WordSearch5Logo" width="800" height="800"/>
+    </resources>
 </document>
