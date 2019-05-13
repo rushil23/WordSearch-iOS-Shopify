@@ -42,7 +42,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     //MARK: Initial Setup
     override func viewDidLoad() {
         super.viewDidLoad()
-        layoutViews()
+        layoutViews(isLandscape: self.view.frame.height < self.view.frame.width)
         
         //SetupGrid
         gridView.layer.cornerRadius = 10
@@ -357,6 +357,10 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     }
     
     func layoutViews() {
+        layoutViews(isLandscape: UIDevice.current.orientation.isLandscape)
+    }
+    
+    func layoutViews(isLandscape: Bool) {
         
         //Height and width of screen
         let height = (self.view.frame.height > self.view.frame.width)
@@ -376,7 +380,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         gridView.collectionViewLayout.invalidateLayout()
         wordsView.collectionViewLayout.invalidateLayout()
         
-        if (UIDevice.current.orientation.isLandscape) {
+        if (isLandscape) {
             print("Orientation: Landscape")
 
             var topSafeHeight: CGFloat = 0 //The top inset in iPhone X models
@@ -398,14 +402,14 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
             
             //Place Button :
             let btnY = wsY + safe
-            let btnX = Int(height) - 2*Int(topSafeHeight) - resetBtnHeight
+            let btnX = Int(height) - 2*Int(topSafeHeight) - resetBtnHeight + safe
             resetButton.frame = CGRect(x: btnX, y: btnY,
                                        width: resetBtnHeight, height: resetBtnHeight)
             
             //Place Reveals and Word Found Labels
             let gameParametersLabelY = btnY + wsLabelHeight
             revealsRemainingLabel.frame = CGRect(x: remainingX + safe, y: gameParametersLabelY, width: Int(remainingWidth), height: gameParametersHeight)
-            wordsFound.frame = CGRect(x: Int(height) - wordsFoundWidth - 2*Int(topSafeHeight), y: gameParametersLabelY, width: wordsFoundWidth, height: gameParametersHeight)
+            wordsFound.frame = CGRect(x: Int(height) - wordsFoundWidth - 2*Int(topSafeHeight) + safe, y: gameParametersLabelY, width: wordsFoundWidth, height: gameParametersHeight)
             
             //Place Words
             let namesGridHeight: Int = Int(width - wordsFound.frame.maxY)
