@@ -369,6 +369,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
                         ? self.view.frame.height : self.view.frame.width
         
         //UI Parameters
+        let padding: CGFloat = 5 //Padding on the sides for grid
         let gridSize = width
         let wsLabelHeight = 45
         let resetBtnHeight = 25
@@ -439,7 +440,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
             
             //Place Grid
             let gridY = CGFloat(gameParametersHeight + gameParametersLabelY)
-            gridView.frame = (CGRect(x: 0, y: gridY, width: gridSize, height: gridSize))
+            gridView.frame = (CGRect(x: padding, y: gridY, width: gridSize-2*padding, height: gridSize-2*padding))
             
             //Place Words
             let wordsGridHeight: Int = Int(height - gridView.frame.maxY - topSafeHeight)
