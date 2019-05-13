@@ -46,13 +46,14 @@ class GameManager {
           "Mobile",
           "iOS"
         ]
+    
     var words: [Word] = []
     
     //Constants
     let REVEALS = 2
     let MAX_ATTEMPTS = 200 //Increase this value if words are missing
     let count = 8 //Hardcoded to 8 words: Can be changed later for different number of words
-    let size: Int = 12 //Hardcoded to 10 : for 10 x 10 Grid, can be changed later for a different grid structure
+    let size: Int = 10 //Hardcoded to 10 : for 10 x 10 Grid, can be changed later for a different grid structure
     
     //Variables
     var wordsFound = 0
