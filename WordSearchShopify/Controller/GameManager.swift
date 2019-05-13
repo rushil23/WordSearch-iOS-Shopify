@@ -44,8 +44,8 @@ class GameManager {
     
     var wordsFound = 0
     let count = 8
-    let REVEALS = 8
-    var revealsRemaining: Int = 8
+    let REVEALS = 2
+    var revealsRemaining: Int = 2
     let MAX_ATTEMPTS = 200 //Increase this value if words are missing
     
     var size: Int = 10 // By default size of the matrix is 10
@@ -328,7 +328,6 @@ class GameManager {
         
         let endRow = vertical ? (result.row + result.word.count - 1) : (result.row)
         let endCol = vertical ? (result.column) : (result.column + result.word.count - 1)
-        print(startIndex,endRow,endCol)
         let endIndex = getIndex(row: endRow, col: endCol)
         return [startIndex, endIndex]
     }

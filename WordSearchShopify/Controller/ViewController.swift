@@ -240,7 +240,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     
     func animateStatusBetween(status: gridStatus, _ start: Int, _ end: Int) { //Animates the status between indexes.
         if (status == .notFound) {
-            print("Unselecting items ! \(start) \(end)")
+            print("Unselecting items ! From index: \(start) --> \(end)")
         }
         let endI = (start>end) ? start : end
         let startI = (start>end) ? end : start
