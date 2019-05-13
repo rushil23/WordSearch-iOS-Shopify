@@ -26,7 +26,7 @@ struct WordResults {
     public var direction: ResultsDirection = .vertical
 }
 
-class Game {
+class GameManager {
     
     let wordList: [String] =
         [
@@ -44,8 +44,8 @@ class Game {
     
     var wordsFound = 0
     let count = 8
-    let HINTS = 8
-    var hintsRemaining: Int = 8
+    let REVEALS = 8
+    var revealsRemaining: Int = 8
     let MAX_ATTEMPTS = 200 //Increase this value if words are missing
     
     var size: Int = 10 // By default size of the matrix is 10
@@ -65,7 +65,7 @@ class Game {
         //Initialize Parameters
         initializeWords()
         wordsFound = 0
-        hintsRemaining = HINTS
+        revealsRemaining = REVEALS
         results = []
         
         //Initialize 2D Grid based on size
@@ -243,7 +243,7 @@ class Game {
                     if (grid[i][col].character == String(chars[i-row])) {
                         print("Overlap Found!: at \(chars[i-row]), for word \(word)")
                     } else {
-                        print("Collision: Word = \(word) : \(grid[i][col].character)")
+                        print("Collision: Word = \(word) : With Letter = \(grid[i][col].character)")
                         return true
                     }
                 }
@@ -255,7 +255,7 @@ class Game {
                     if (grid[row][i].character == String(chars[i-col])) {
                         print("Overlap Found! at \(chars[i-col]), for word \(word)")
                     } else {
-                        print("Collision: Word = \(word) : \(grid[row][i].character)")
+                        print("Collision: Word = \(word) : With Letter = \(grid[row][i].character)")
                         return true
                     }
                 }
@@ -293,8 +293,8 @@ class Game {
                 if (!isColliding(word, vertical, row, col)) {
                     placeWordAt(word, vertical, row, col)
                     results.append(WordResults(word: word,
-                                               column: (col+1),
-                                               row: (row+1),
+                                               column: col,
+                                               row: row,
                                                direction: vertical ? .vertical : .horizontal))
                     break
                 }
@@ -319,10 +319,10 @@ class Game {
         }
         
         let vertical = (result.direction == .vertical)
-        let startIndex = getIndex(row: result.row-1, col: result.column-1)
+        let startIndex = getIndex(row: result.row, col: result.column)
         
-        let endRow = vertical ? (result.row + result.word.count - 2) : (result.row - 1)
-        let endCol = vertical ? (result.column - 1) : (result.column + result.word.count - 2)
+        let endRow = vertical ? (result.row + result.word.count - 1) : (result.row)
+        let endCol = vertical ? (result.column) : (result.column + result.word.count - 1)
         print(startIndex,endRow,endCol)
         let endIndex = getIndex(row: endRow, col: endCol)
         updateStatusBetween(.found, startIndex, endIndex)

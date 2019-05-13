@@ -28,8 +28,8 @@
                                         <color key="textColor" red="0.88386482" green="0.31923630829999999" blue="0.25486460329999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Hints: 2" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XSn-aw-jjK" userLabel="Hints Remaining">
-                                        <rect key="frame" x="7" y="69" width="75" height="33"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Reveals: 2" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XSn-aw-jjK" userLabel="Reveals Remaining">
+                                        <rect key="frame" x="7" y="69" width="100" height="33"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                         <color key="textColor" red="0.88386482" green="0.31923630829999999" blue="0.25486460329999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
@@ -151,8 +151,8 @@
                     </view>
                     <connections>
                         <outlet property="gridView" destination="c1u-ZP-IB8" id="PKo-mn-vWh"/>
-                        <outlet property="hintsRemainingLabel" destination="XSn-aw-jjK" id="Wp4-1x-SQG"/>
                         <outlet property="resetButton" destination="zUf-wf-ELP" id="5GY-L1-xAt"/>
+                        <outlet property="revealsRemainingLabel" destination="XSn-aw-jjK" id="Wp4-1x-SQG"/>
                         <outlet property="safeArea" destination="Z4k-H8-40S" id="PzV-Ib-U1d"/>
                         <outlet property="wordSearchLabel" destination="fBm-aK-9xx" id="gkb-B8-feN"/>
                         <outlet property="wordsFound" destination="bTd-lg-gpC" id="oAs-gL-pld"/>

@@ -18,7 +18,7 @@
 		CEA32E02228504860095AE25 /* GridBlock.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEA32E01228504860095AE25 /* GridBlock.swift */; };
 		CEA32E062285D81E0095AE25 /* WordsViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEA32E052285D81E0095AE25 /* WordsViewCell.swift */; };
 		CEA32E08228601F70095AE25 /* Word.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEA32E07228601F70095AE25 /* Word.swift */; };
-		CEECF2502283958100B853FD /* Game.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEECF24F2283958100B853FD /* Game.swift */; };
+		CEECF2502283958100B853FD /* GameManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEECF24F2283958100B853FD /* GameManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -56,7 +56,7 @@
 		CEA32E01228504860095AE25 /* GridBlock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridBlock.swift; sourceTree = "<group>"; };
 		CEA32E052285D81E0095AE25 /* WordsViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordsViewCell.swift; sourceTree = "<group>"; };
 		CEA32E07228601F70095AE25 /* Word.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Word.swift; sourceTree = "<group>"; };
-		CEECF24F2283958100B853FD /* Game.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Game.swift; sourceTree = "<group>"; };
+		CEECF24F2283958100B853FD /* GameManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -159,7 +159,7 @@
 			isa = PBXGroup;
 			children = (
 				CE0A728222823C88009957D8 /* ViewController.swift */,
-				CEECF24F2283958100B853FD /* Game.swift */,
+				CEECF24F2283958100B853FD /* GameManager.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -301,7 +301,7 @@
 				CE0A728322823C88009957D8 /* ViewController.swift in Sources */,
 				CEA32E002284D9B00095AE25 /* GridViewCell.swift in Sources */,
 				CEA32E02228504860095AE25 /* GridBlock.swift in Sources */,
-				CEECF2502283958100B853FD /* Game.swift in Sources */,
+				CEECF2502283958100B853FD /* GameManager.swift in Sources */,
 				CE0A728122823C88009957D8 /* AppDelegate.swift in Sources */,
 				CEA32E08228601F70095AE25 /* Word.swift in Sources */,
 				CEA32E062285D81E0095AE25 /* WordsViewCell.swift in Sources */,

@@ -23,7 +23,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     
     @IBOutlet weak var gridView: UICollectionView!
     @IBOutlet weak var wordsView: UICollectionView!
-    @IBOutlet weak var hintsRemainingLabel: UILabel!
+    @IBOutlet weak var revealsRemainingLabel: UILabel!
     @IBOutlet weak var wordsFound: UILabel!
     @IBOutlet weak var wordSearchLabel: UILabel!
     @IBOutlet weak var resetButton: UIButton!
@@ -31,7 +31,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     
     
     
-    let game = Game()
+    let game = GameManager()
     var userHasWon: Bool = false
     var startIndex: Int = -1
     var endIndex: Int = -1
@@ -57,13 +57,24 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     
     }
     @IBAction func resetLevel(_ sender: Any) {
-        print("RESHUFFLE")
+        resetParameters()
+    }
+    
+    func resetParameters() {
         game.populateGrid()
         userHasWon = false
-        hintsRemainingLabel.text = "Hints: \(game.hintsRemaining)"
+        startIndex = -1
+        endIndex = -1
+        currIndex = -1
+        gridCount = 0
+        revealsRemainingLabel.text = "Reveals: \(game.revealsRemaining)"
         wordsFound.text = "Words Found: \(game.wordsFound)"
-        gridView.reloadData()
-        wordsView.reloadData()
+        gridView.performBatchUpdates({
+            gridView.reloadSections(IndexSet(integer: 0))
+        }, completion: nil)
+        wordsView.performBatchUpdates({
+            wordsView.reloadSections(IndexSet(integer: 0))
+        }, completion: nil)
     }
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -136,9 +147,9 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
             
             gridView.reloadData()
         } else {
-            if (game.hintsRemaining > 0 && game.words[indexPath.item].status == .notFound) {
-                game.hintsRemaining -= 1
-                hintsRemainingLabel.text = "Hints: \(game.hintsRemaining)"
+            if (game.revealsRemaining > 0 && game.words[indexPath.item].status == .notFound) {
+                game.revealsRemaining -= 1
+                revealsRemainingLabel.text = "replaces: \(game.revealsRemaining)"
                 let word = game.words[indexPath.item].word
                 game.revealWord(word)
                 game.words[indexPath.item].status = .found
@@ -227,7 +238,6 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     
     func animateStatusAt(status: gridStatus, _ index: Int) {
         if (index<0) { return }
-        playHapticFeedback()
         animateStatusBetween(status: status, index, index)
     }
     
@@ -270,21 +280,9 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         let alert = UIAlertController(title: "YOU WON!", message: "Congrats! You found all the words", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "Thats Great! :)", style: .default, handler: { action in
             partyColorsTimer.invalidate()
-            self.userHasWon = false
-            self.game.populateGrid()
-            self.wordsView.reloadData()
-            self.hintsRemainingLabel.text = "Hints: \(self.game.hintsRemaining)"
-            self.wordsFound.text = "Words Found: \(self.game.wordsFound)"
-            self.gridView.performBatchUpdates({
-                self.gridView.reloadSections(IndexSet(integer: 0))
-            }, completion: nil)
+            self.resetParameters()
         }))
         self.present(alert, animated: true, completion: nil)
-    }
-    
-    func playHapticFeedback() {
-        let selectionGenerator = UISelectionFeedbackGenerator()
-        selectionGenerator.selectionChanged()
     }
     
     func checkWord() {
@@ -348,7 +346,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         let wsLabelHeight = 45
         let resetBtnHeight = 25
         let wordsFoundWidth = 140
-        let gameParametersHeight = 35 // Hints and Words Found Labels
+        let gameParametersHeight = 35 // replaces and Words Found Labels
         let safe = 10 //Safe Distance from corners
         
         gridView.collectionViewLayout.invalidateLayout()
@@ -381,9 +379,9 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
             resetButton.frame = CGRect(x: btnX, y: btnY,
                                        width: resetBtnHeight, height: resetBtnHeight)
             
-            //Place Hints and Word Found
+            //Place replaces and Word Found
             let gameParametersLabelY = btnY + wsLabelHeight
-            hintsRemainingLabel.frame = CGRect(x: remainingX + safe, y: gameParametersLabelY, width: Int(remainingWidth), height: gameParametersHeight)
+            revealsRemainingLabel.frame = CGRect(x: remainingX + safe, y: gameParametersLabelY, width: Int(remainingWidth), height: gameParametersHeight)
             wordsFound.frame = CGRect(x: Int(height) - wordsFoundWidth - 2*Int(topSafeHeight), y: gameParametersLabelY, width: wordsFoundWidth, height: gameParametersHeight)
             
             // Names Setup
@@ -408,9 +406,9 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
             resetButton.frame = CGRect(x: Int(width) - resetBtnHeight - safe, y: btnY,
                                         width: resetBtnHeight, height: resetBtnHeight)
             
-            //Place Hints and Word Found
+            //Place Reveals and Word Found
             let gameParametersLabelY = btnY + wsLabelHeight
-            hintsRemainingLabel.frame = CGRect(x: safe, y: gameParametersLabelY, width: Int(resetButton.frame.maxX), height: gameParametersHeight)
+            revealsRemainingLabel.frame = CGRect(x: safe, y: gameParametersLabelY, width: Int(resetButton.frame.maxX), height: gameParametersHeight)
             wordsFound.frame = CGRect(x: Int(width)-safe-wordsFoundWidth, y: gameParametersLabelY, width: wordsFoundWidth, height: gameParametersHeight)
             
             // Grid Setup
