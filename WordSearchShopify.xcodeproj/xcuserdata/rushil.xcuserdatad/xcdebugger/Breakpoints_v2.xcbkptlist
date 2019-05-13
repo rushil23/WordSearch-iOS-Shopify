@@ -698,11 +698,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WordSearchShopify/Controller/ViewController.swift"
-            timestampString = "579467553.6148421"
+            timestampString = "579479811.183565"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "384"
-            endingLineNumber = "384"
+            startingLineNumber = "390"
+            endingLineNumber = "390"
             landmarkName = "layoutViews(isLandscape:)"
             landmarkType = "7">
          </BreakpointContent>

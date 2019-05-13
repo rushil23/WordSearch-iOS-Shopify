@@ -352,9 +352,8 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     }
     
     //MARK: AutoLayout functions
-    override func willTransition(to newCollection: UITraitCollection, with coordinator: UIViewControllerTransitionCoordinator) {
-       layoutViews()
-
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        layoutViews()
     }
     
     func layoutViews() {
