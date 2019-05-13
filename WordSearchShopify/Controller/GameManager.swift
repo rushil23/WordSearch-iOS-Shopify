@@ -9,17 +9,20 @@
 import Foundation
 
 //MARK: Helper Data Structures declaration
+//Relation between two grids: Same row, same column, or none.
 enum RowColumn {
     case row
     case column
     case none
 }
 
+//Orientation of Words placed in the grid
 enum ResultsDirection {
     case vertical
     case horizontal
 }
 
+//Defines Words placed in Grid
 struct WordResults {
     public var word = ""
     public var column = 0
@@ -43,18 +46,18 @@ class GameManager {
           "Mobile",
           "iOS"
         ]
-
     var words: [Word] = []
     
-    var wordsFound = 0
-    let count = 8
+    //Constants
     let REVEALS = 2
-    var revealsRemaining: Int = 2
     let MAX_ATTEMPTS = 200 //Increase this value if words are missing
+    let count = 8 //Hardcoded to 8 words: Can be changed later for different number of words
+    let size: Int = 12 //Hardcoded to 10 : for 10 x 10 Grid, can be changed later for a different grid structure
     
-    var size: Int = 10 // By default size of the matrix is 10
-    var results: Array<WordResults> = []
-    
+    //Variables
+    var wordsFound = 0
+    var revealsRemaining: Int = 2
+    var results: Array<WordResults> = [] //Word placement results in grid
     var grid: [[GridBlock]] = []
     var grid1D: [GridBlock] = []
     
@@ -68,14 +71,16 @@ class GameManager {
         
         //Initialize 2D Grid based on size
         grid = Array(repeating: Array(repeating: GridBlock(), count: size), count: size)
-
         for i in 0..<size {
             for j in 0..<size {
                     grid[i][j] = GridBlock(character: "-", status: .notFound)
             }
         }
+        
         placeWords()
         printGrid()
+        
+        //Fill remaining spots with random letters
         for i in 0..<size {
             for j in 0..<size {
                 if grid[i][j].character == "-" {
@@ -84,11 +89,11 @@ class GameManager {
             }
         }
         
+        updateGrid1D()
+        
         if (results.count != count) {
             print("Developer Warning: SOME OF THE WORDS WERE NOT PLACED IN THE GRID. Consider increasing the MAX_ATTEMPTS threshold.")
         }
-        
-        updateGrid1D()
         
         while (foundTwoWordsInSameGrid() == true) {
             print("Developer Warning: Repopulating Grid due to duplicate words in Grid.")
@@ -136,9 +141,8 @@ class GameManager {
             return nil
         }
         
-        let vertical = (result.direction == .vertical)
         let startIndex = getIndex(row: result.row, col: result.column)
-        
+        let vertical = (result.direction == .vertical)
         let endRow = vertical ? (result.row + result.word.count - 1) : (result.row)
         let endCol = vertical ? (result.column) : (result.column + result.word.count - 1)
         let endIndex = getIndex(row: endRow, col: endCol)
@@ -153,7 +157,7 @@ class GameManager {
         if (vertical) {
             for i in row..<(row+size) {
                 if (grid[i][col].character != "-") {
-                    
+                    // Special case of collision: where grids overlap at the same letter, which is technically not a collision :)
                     if (grid[i][col].character == String(chars[i-row])) {
                         print("Overlap Found!: at \(chars[i-row]), for word \(word)")
                     } else {
@@ -165,7 +169,6 @@ class GameManager {
         } else {
             for i in col..<(col+size) {
                 if (grid[row][i].character != "-") {
-                    
                     if (grid[row][i].character == String(chars[i-col])) {
                         print("Overlap Found! at \(chars[i-col]), for word \(word)")
                     } else {
@@ -192,6 +195,7 @@ class GameManager {
                 row += grid[i][j].character
                 column += grid[j][i].character
             }
+            //Traverse through words and check if they exist in row and column
             for k in 0..<count {
                 let word = wordList[k].uppercased()
                 if row.contains(word) {

@@ -8,10 +8,11 @@
 
 import UIKit
 
+//Grid status changes upon user interaction ---> results in UI color changes
 enum gridStatus {
     case notFound //Grids that are not found
     case selected //Grids that are in the process of being drawn / swiped by user
-    case found //Grids that are found
+    case found    //Grids that are found
 }
 
 class GridBlock: NSObject {

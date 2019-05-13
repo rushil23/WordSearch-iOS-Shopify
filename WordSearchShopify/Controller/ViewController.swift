@@ -79,14 +79,19 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         return (collectionView==gridView) ? game.size*game.size : game.wordList.count
     }
     
-    // Adjust number of rows & columns
+    // Adjust number of rows & columns - by adjusting size of cells
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         // ----- GRID COLLECTION VIEW -----
         if (collectionView == gridView) {
-            return CGSize(width: collectionView.bounds.size.width/10, height: collectionView.bounds.size.height/10)
+            let size = CGFloat(game.size)
+            return CGSize(width: collectionView.bounds.size.width/size,
+                          height: collectionView.bounds.size.height/size)
         } // ------ WORDS COLLECTION VIEW ------
         else {
-            return CGSize(width: collectionView.bounds.size.width/2, height: collectionView.bounds.size.height/4)
+            let cols: CGFloat = 2
+            let rows = CGFloat(game.count/2)
+            return CGSize(width: collectionView.bounds.size.width/cols,
+                          height: collectionView.bounds.size.height/rows)
         }
     }
     
@@ -104,7 +109,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
                 case .notFound:
                     grid.backgroundColor = darkRed
                     break
-                case .selected:
+            case .selected: //If user has won: show party colors
                     grid.backgroundColor = userHasWon ? partyColors.randomElement() : selectedRed
                     break
                 case .found: // .found & .selected grids use the same color for UI aesthetics
@@ -124,12 +129,13 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
 
             let status = words[indexPath.item].status
             if (status == .found) {
+                //Strike out Word
                 let attributeString: NSMutableAttributedString =  NSMutableAttributedString(string: words[indexPath.item].word)
                 attributeString.addAttribute(NSAttributedString.Key.strikethroughStyle, value: 2, range: NSMakeRange(0, attributeString.length))
                 nameCell.name.attributedText = attributeString
-                nameCell.name.font = UIFont.systemFont(ofSize: 22)
+                nameCell.name.font = UIFont.systemFont(ofSize: 22) //Decrease size
             } else {
-                nameCell.name.font = UIFont.systemFont(ofSize: 24)
+                nameCell.name.font = UIFont.systemFont(ofSize: 24) //Reset size
             }
             return nameCell
             
@@ -201,7 +207,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         switch (recognizer.state) {
         case .began:
             
-            if (startIndex != -1) {
+            if (startIndex != -1) { //Disable tapped grid when swipe begins
                 animateStatusAt(status: .notFound, startIndex)
             }
             
@@ -213,10 +219,10 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
             break
         case .changed:
             if game.sameRowOrColumn(currIndex, index) == .none
-                || game.sameRowOrColumn(startIndex, index) == .none{
+                || game.sameRowOrColumn(startIndex, index) == .none{ //Edge Case: if user swipes out of a row or column, do nothing.
                 return
             }
-            fillGapsBetween(.selected, currIndex, index)
+            fillGapsBetween(.selected, currIndex, index) //Edge Case: If user returns back to the same row or column, continue swipe and fill gaps.
             currIndex = index
             print("CHANGED AT POINT: \(index)")
             gridCount += 1
@@ -224,7 +230,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
             break
         case .ended:
             if game.sameRowOrColumn(currIndex, index) == .none
-                || game.sameRowOrColumn(startIndex, index) == .none{
+                || game.sameRowOrColumn(startIndex, index) == .none{ //Edge Case: If user ends their swipe somewhere else, in another row and column, take the swipe gesture as the last point they were at.
                 endIndex = currIndex
             } else {
                 endIndex = index
@@ -278,6 +284,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     //MARK: Win Condition Handler
     func presentWinAlert() {
         var curr = -1
+        //Display Disco Effect
         let partyColorsTimer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { (t) in
             self.animateStatusAt(status: .notFound, curr)
             curr = Int.random(in: 0..<100)
@@ -285,6 +292,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
             self.animateStatusAt(status: .selected, curr)
         }
         
+        //Show win alert
         let alert = UIAlertController(title: "YOU WON!", message: "Congrats! You found all the words", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "Thats Great! :)", style: .default, handler: { action in
             partyColorsTimer.invalidate()
@@ -293,13 +301,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         self.present(alert, animated: true, completion: nil)
     }
     
-    //MARK: Helper Functions
-    func fillGapsBetween(_ status:gridStatus, _ start: Int, _ end: Int) {
-        // Same cells, or adjacent cells do not have gaps in between them
-        if (start == end) || abs(start-end)==1 || abs(start-end)==10 { return }
-        animateStatusBetween(status: status, start, end)
-    }
-
+    //MARK: Word Checker
     func checkWord() {
         let word: String = game.getWordBetweenIndexes(startIndex, endIndex)
         print("Word Selected = \(word)")
@@ -319,16 +321,22 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
             print("Did not find word!")
             animateStatusBetween(status: .notFound, startIndex, endIndex)
         }
-        
-        //EdgeCase: If user swipes back, need to initiate clean up
-        if (gridCount != word.count && gridCount>0) {
-            print("Cleaning Up Matrix | Grid Count = \(gridCount) for Word = \(word)")
-            initiateCleanUp()
+            //EdgeCase: If user swipes back, some of the grids would remain selected ---> need to initiate clean up
+            if (gridCount != word.count && gridCount>0) {
+                print("Cleaning Up Matrix | Grid Count = \(gridCount) for Word = \(word)")
+                initiateCleanUp()
         }
         gridCount = 0
         startIndex = -1
         endIndex = -1
         currIndex = -1
+    }
+    
+    //MARK: Helper Functions
+    func fillGapsBetween(_ status:gridStatus, _ start: Int, _ end: Int) {
+        // Same cells, or adjacent cells do not have gaps in between them
+        if (start == end) || abs(start-end)==1 || abs(start-end)==10 { return }
+        animateStatusBetween(status: status, start, end)
     }
     
     func initiateCleanUp() { //Helper functions to clean up all the selected states
@@ -356,14 +364,15 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         let width = (self.view.frame.height < self.view.frame.width)
                         ? self.view.frame.height : self.view.frame.width
         
+        //UI Parameters
         let gridSize = width
-        print("AutoLayout: Height = \(height), Width = \(width)")
         let wsLabelHeight = 45
         let resetBtnHeight = 25
         let wordsFoundWidth = 140
         let gameParametersHeight = 35 // replaces and Words Found Labels
         let safe = 10 //Safe Distance from corners
         
+        //Necessary to rearrange cells in collection view when layout changes
         gridView.collectionViewLayout.invalidateLayout()
         wordsView.collectionViewLayout.invalidateLayout()
         
@@ -377,9 +386,8 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
                 topSafeHeight = (safeFrame.minY > safeFrame.minX) ? safeFrame.minY : safeFrame.minX
                 
             }
-            print("Height = \(height), width = \(width), \(topSafeHeight)")
             
-            // Grid Setup
+            //Place Grid
             gridView.frame = (CGRect(x: 0, y: topSafeHeight-CGFloat(safe), width: gridSize-topSafeHeight-CGFloat(safe), height: gridSize-topSafeHeight-CGFloat(safe)))
             
             let remainingWidth = height - 2*topSafeHeight - gridView.frame.width - CGFloat(safe)
@@ -394,12 +402,12 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
             resetButton.frame = CGRect(x: btnX, y: btnY,
                                        width: resetBtnHeight, height: resetBtnHeight)
             
-            //Place replaces and Word Found
+            //Place Reveals and Word Found Labels
             let gameParametersLabelY = btnY + wsLabelHeight
             revealsRemainingLabel.frame = CGRect(x: remainingX + safe, y: gameParametersLabelY, width: Int(remainingWidth), height: gameParametersHeight)
             wordsFound.frame = CGRect(x: Int(height) - wordsFoundWidth - 2*Int(topSafeHeight), y: gameParametersLabelY, width: wordsFoundWidth, height: gameParametersHeight)
             
-            // Names Setup
+            //Place Words
             let namesGridHeight: Int = Int(width - wordsFound.frame.maxY)
             wordsView.frame = (CGRect(x: remainingX, y: Int(wordsFound.frame.maxY) - safe, width: Int(remainingWidth), height: namesGridHeight))
             
@@ -411,7 +419,6 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
                 let safeFrame = window.safeAreaLayoutGuide.layoutFrame
                 topSafeHeight = (safeFrame.minY > safeFrame.minX) ? safeFrame.minY : safeFrame.minX
             }
-            print("Height = \(height), width = \(width), \(topSafeHeight)")
             
             // Place Label :
             wordSearchLabel.frame = CGRect(x: 0, y: 0, width: Int(width), height: wsLabelHeight)
@@ -426,14 +433,14 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
             revealsRemainingLabel.frame = CGRect(x: safe, y: gameParametersLabelY, width: Int(resetButton.frame.maxX), height: gameParametersHeight)
             wordsFound.frame = CGRect(x: Int(width)-safe-wordsFoundWidth, y: gameParametersLabelY, width: wordsFoundWidth, height: gameParametersHeight)
             
-            // Grid Setup
+            //Place Grid
             let gridY = CGFloat(gameParametersHeight + gameParametersLabelY)
             gridView.frame = (CGRect(x: 0, y: gridY, width: gridSize, height: gridSize))
             
-            // Names Setup
-            let namesGridHeight: Int = Int(height - gridView.frame.maxY - topSafeHeight)
-            let namesGridY = Int(gridView.frame.maxY)
-            wordsView.frame = (CGRect(x: 0, y: namesGridY, width: Int(gridSize), height: namesGridHeight))
+            //Place Words
+            let wordsGridHeight: Int = Int(height - gridView.frame.maxY - topSafeHeight)
+            let wordsGridY = Int(gridView.frame.maxY)
+            wordsView.frame = (CGRect(x: 0, y: wordsGridY, width: Int(gridSize), height: wordsGridHeight))
             
         }
     }

@@ -10,7 +10,7 @@ import UIKit
 
 enum WordStatus {
     case notFound //Words that are not found
-    case found //Words that are found
+    case found    //Words that are found --- Found words have a strike through them
 }
 
 class Word: NSObject {
