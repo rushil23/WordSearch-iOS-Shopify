@@ -303,7 +303,7 @@ class GameManager {
         
     }
     
-    func revealWord(_ word: String) {
+    func revealWord(_ word: String) -> [Int]? {
         var result: WordResults = WordResults()
         for r in results {
             if (r.word == word.uppercased()) || (String(r.word.reversed()) == word.uppercased()) {
@@ -315,7 +315,7 @@ class GameManager {
         
         if (result.word=="") {
             print("Could not find word to reveal")
-            return
+            return nil
         }
         
         let vertical = (result.direction == .vertical)
@@ -325,7 +325,7 @@ class GameManager {
         let endCol = vertical ? (result.column) : (result.column + result.word.count - 1)
         print(startIndex,endRow,endCol)
         let endIndex = getIndex(row: endRow, col: endCol)
-        updateStatusBetween(.found, startIndex, endIndex)
+        return [startIndex, endIndex]
     }
     
     func countGridsWith(_ status: gridStatus) -> Int { //Helper function to count selected

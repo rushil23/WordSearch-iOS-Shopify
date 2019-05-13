@@ -10,17 +10,16 @@ import UIKit
 
 class ViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     
-    
     //ColorScheme:
     let darkRed = UIColor(rgb: 0xb71c1c)
     let crimsonRed = UIColor(rgb: 0xd50000)
     let mediumRed = UIColor(rgb: 0xf44336)
     let lightRed = UIColor(rgb: 0xffcdd2)
     let selectedRed = UIColor(rgb: 0xef5350)
+    // Random Colors for animations when the User wins
     let partyColors: [UIColor] = [.green, .blue, .red, .yellow, .magenta , .purple]
     
-    
-    
+    //UI Outlets
     @IBOutlet weak var gridView: UICollectionView!
     @IBOutlet weak var wordsView: UICollectionView!
     @IBOutlet weak var revealsRemainingLabel: UILabel!
@@ -29,22 +28,18 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     @IBOutlet weak var resetButton: UIButton!
     @IBOutlet weak var safeArea: UIView!
     
-    
-    
+    // Game Parameters - Will reset after every game / button click
     let game = GameManager()
     var userHasWon: Bool = false
-    var startIndex: Int = -1
+    var startIndex: Int = -1 // For Two - Tap
     var endIndex: Int = -1
-    //Swipe Variables
-    var currIndex: Int = -1
-    var gridCount: Int = 0
+    var currIndex: Int = -1 // For swipe
+    var gridCount: Int = 0 // To handle swipe edge cases
     
-    let animationDuration = 0.4 //For grid
-    
+    let animationDuration = 0.4 //For grid & words
     
     override func viewDidLoad() {
         super.viewDidLoad()
-    
         layoutViews()
         
         //SetupGrid
@@ -52,15 +47,14 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         gridView.clipsToBounds = true
         
         //Setup game
-        game.populateGrid()
-        gridView.reloadData()
-    
+        initializeGame()
     }
+    
     @IBAction func resetLevel(_ sender: Any) {
-        resetParameters()
+        initializeGame()
     }
     
-    func resetParameters() {
+    func initializeGame() { //Helper function to restart game
         game.populateGrid()
         userHasWon = false
         startIndex = -1
@@ -69,7 +63,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         gridCount = 0
         revealsRemainingLabel.text = "Reveals: \(game.revealsRemaining)"
         wordsFound.text = "Words Found: \(game.wordsFound)"
-        gridView.performBatchUpdates({
+        gridView.performBatchUpdates({ //Adds an animated effect
             gridView.reloadSections(IndexSet(integer: 0))
         }, completion: nil)
         wordsView.performBatchUpdates({
@@ -82,7 +76,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        if (collectionView == gridView) {
+        if (collectionView == gridView) { // Handle Grid and Words collection view separately
             let grid = gridView.dequeueReusableCell(withReuseIdentifier: "Grid", for: indexPath) as! GridViewCell
             
             let gridBlock = game.getCharArray()![indexPath.item]
@@ -96,7 +90,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
                 case .selected:
                     grid.backgroundColor = userHasWon ? partyColors.randomElement() : selectedRed
                     break
-                case .found:
+                case .found: // .found & .selected grids use the same color for UI aesthetics
                     grid.backgroundColor = selectedRed
                     break
                 }
@@ -108,9 +102,9 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
             let words = game.words
             
             nameCell.name.text = words[indexPath.item].word
-            let status = words[indexPath.item].status
             nameCell.name.textColor = mediumRed
 
+            let status = words[indexPath.item].status
             if (status == .found) {
                 let attributeString: NSMutableAttributedString =  NSMutableAttributedString(string: words[indexPath.item].word)
                 attributeString.addAttribute(NSAttributedString.Key.strikethroughStyle, value: 2, range: NSMakeRange(0, attributeString.length))
@@ -128,10 +122,11 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if (collectionView == gridView) {
             print("Grid Selected = \(indexPath.item)")
-            if (startIndex == -1) {
+            // Handles Two - Tap word selections
+            if (startIndex == -1) { // First Tap
                 startIndex = indexPath.item
                 animateStatusAt(status: .selected, indexPath.item)
-            } else if (game.sameRowOrColumn(startIndex, indexPath.item) != .none) {
+            } else if (game.sameRowOrColumn(startIndex, indexPath.item) != .none) { // Second Tap
                 endIndex = indexPath.item
                 
                 animateStatusBetween(status: .selected, startIndex, endIndex)
@@ -139,7 +134,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
                 
                 startIndex = -1
                 endIndex = -1
-            } else {
+            } else { // User taps another row/column grid ---> Reset to first tap
                 animateStatusAt(status: .notFound, startIndex)
                 animateStatusAt(status: .selected, indexPath.item)
                 startIndex = indexPath.item
@@ -147,17 +142,19 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
             
             gridView.reloadData()
         } else {
+            // Check if the user has any REVEALS remaining to use
             if (game.revealsRemaining > 0 && game.words[indexPath.item].status == .notFound) {
                 game.revealsRemaining -= 1
-                revealsRemainingLabel.text = "replaces: \(game.revealsRemaining)"
+                revealsRemainingLabel.text = "Reveals: \(game.revealsRemaining)"
                 let word = game.words[indexPath.item].word
-                game.revealWord(word)
+                guard let wordIndexes = game.revealWord(word) else { return }
+                animateStatusBetween(status: .found, wordIndexes[0], wordIndexes[1])
                 game.words[indexPath.item].status = .found
                 
                 UIView.animate(withDuration: animationDuration) {
                     self.wordsView.reloadSections(IndexSet(integer: 0))
                 }
-                
+
                 gridView.reloadData()
                 
                 wordsFound.text = "Words Found: \(game.wordsFound)"
@@ -280,7 +277,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         let alert = UIAlertController(title: "YOU WON!", message: "Congrats! You found all the words", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "Thats Great! :)", style: .default, handler: { action in
             partyColorsTimer.invalidate()
-            self.resetParameters()
+            self.initializeGame()
         }))
         self.present(alert, animated: true, completion: nil)
     }
@@ -307,11 +304,10 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         
         //EdgeCase: If user swipes back, need to initiate clean up
         if (gridCount != word.count && gridCount>0) {
-            gridCount = 0
             print("Cleaning Up Matrix | Grid Count = \(gridCount) for Word = \(word)")
             initiateCleanUp()
         }
-        
+        gridCount = 0
         startIndex = -1
         endIndex = -1
         currIndex = -1
