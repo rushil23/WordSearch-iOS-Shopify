@@ -10,6 +10,7 @@ import UIKit
 
 class ViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     
+    //MARK: Parameters & Variables
     //ColorScheme:
     let darkRed = UIColor(rgb: 0xb71c1c)
     let crimsonRed = UIColor(rgb: 0xd50000)
@@ -38,6 +39,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     
     let animationDuration = 0.4 //For grid & words
     
+    //MARK: Initial Setup
     override func viewDidLoad() {
         super.viewDidLoad()
         layoutViews()
@@ -50,6 +52,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         initializeGame()
     }
     
+    //MARK: Reset Button
     @IBAction func resetLevel(_ sender: Any) {
         initializeGame()
     }
@@ -71,12 +74,26 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         }, completion: nil)
     }
 
+    //MARK: Collection View - Grid & Words View functions
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return (collectionView==gridView) ? game.size*game.size : game.wordList.count
     }
-
+    
+    // Adjust number of rows & columns
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        // ----- GRID COLLECTION VIEW -----
+        if (collectionView == gridView) {
+            return CGSize(width: collectionView.bounds.size.width/10, height: collectionView.bounds.size.height/10)
+        } // ------ WORDS COLLECTION VIEW ------
+        else {
+            return CGSize(width: collectionView.bounds.size.width/2, height: collectionView.bounds.size.height/4)
+        }
+    }
+    
+    // Handles Grid & Words UI - updates colors upon different user interactions
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        if (collectionView == gridView) { // Handle Grid and Words collection view separately
+        // ----- GRID COLLECTION VIEW -----
+        if (collectionView == gridView) {
             let grid = gridView.dequeueReusableCell(withReuseIdentifier: "Grid", for: indexPath) as! GridViewCell
             
             let gridBlock = game.getCharArray()![indexPath.item]
@@ -96,6 +113,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
                 }
             
             return grid
+        // --- WORDS COLLECTION VIEW ----
         } else {
             let nameCell = wordsView.dequeueReusableCell(withReuseIdentifier: "NameCell", for: indexPath) as! WordsViewCell
             
@@ -120,6 +138,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        // ----- GRID COLLECTION VIEW -----
         if (collectionView == gridView) {
             print("Grid Selected = \(indexPath.item)")
             // Handles Two - Tap word selections
@@ -141,6 +160,8 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
             }
             
             gridView.reloadData()
+            
+        // ----- WORDS COLLECTION VIEW ------
         } else {
             // Check if the user has any REVEALS remaining to use
             if (game.revealsRemaining > 0 && game.words[indexPath.item].status == .notFound) {
@@ -167,6 +188,8 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         }
     }
     
+    
+    // MARK: Swipe Gesture Handler
     @IBAction func handlePan(_ recognizer: UIPanGestureRecognizer) {
         
         guard let index = gridView.indexPathForItem(at: recognizer.location(in: gridView))?.item else { return }
@@ -218,21 +241,8 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         }
         gridView.reloadData()
     }
-
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        if (collectionView == gridView) {
-            return CGSize(width: collectionView.bounds.size.width/10, height: collectionView.bounds.size.height/10)
-        } else {
-            return CGSize(width: collectionView.bounds.size.width/2, height: collectionView.bounds.size.height/4)
-        }
-    }
     
-    func fillGapsBetween(_ status:gridStatus, _ start: Int, _ end: Int) {
-        // Same cells, or adjacent cells do not have gaps in between them
-        if (start == end) || abs(start-end)==1 || abs(start-end)==10 { return }
-        animateStatusBetween(status: status, start, end)
-    }
-    
+    // MARK: Animation Functions
     func animateStatusAt(status: gridStatus, _ index: Int) {
         if (index<0) { return }
         animateStatusBetween(status: status, index, index)
@@ -264,7 +274,8 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
             }
         }
     }
-
+    
+    //MARK: Win Condition Handler
     func presentWinAlert() {
         var curr = -1
         let partyColorsTimer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { (t) in
@@ -273,7 +284,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
             self.userHasWon = true
             self.animateStatusAt(status: .selected, curr)
         }
-    
+        
         let alert = UIAlertController(title: "YOU WON!", message: "Congrats! You found all the words", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "Thats Great! :)", style: .default, handler: { action in
             partyColorsTimer.invalidate()
@@ -282,6 +293,13 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         self.present(alert, animated: true, completion: nil)
     }
     
+    //MARK: Helper Functions
+    func fillGapsBetween(_ status:gridStatus, _ start: Int, _ end: Int) {
+        // Same cells, or adjacent cells do not have gaps in between them
+        if (start == end) || abs(start-end)==1 || abs(start-end)==10 { return }
+        animateStatusBetween(status: status, start, end)
+    }
+
     func checkWord() {
         let word: String = game.getWordBetweenIndexes(startIndex, endIndex)
         print("Word Selected = \(word)")
@@ -324,6 +342,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         }
     }
     
+    //MARK: AutoLayout functions
     override func willTransition(to newCollection: UITraitCollection, with coordinator: UIViewControllerTransitionCoordinator) {
        layoutViews()
 
@@ -422,6 +441,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
 
 }
 
+//MARK: Helper functions to get UIColor directly using Hex code
 extension UIColor {
     convenience init(red: Int, green: Int, blue: Int) {
         assert(red >= 0 && red <= 255, "Invalid red component")
