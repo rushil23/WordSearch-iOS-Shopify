@@ -21,7 +21,11 @@
     - Swipe over words
 3. Restart button: Users can restart the game anytime they want
 4. Disco Effect: Users get to witness a disco effect (with smooth animations) on the grid every time they win.
-5. AutoLayout: Supports any orientation on any device: from iPhone 8 ---> iPhone X
+5. AutoLayout: Supports any orientation on any device. (iPhones & iPads)
+6. Special Edge Cases Handled: 
+    - Duplicate Words in Grid: 
+    There is a chance that the random letters in the grid could align to form a duplicate of one of the words in the word list, and this function is a helper function to handle that.
+    However: the chance of this happening is really low, 0.005 % [ (1/26)^3 ] for a 3 - lettered word like iOS
 
 
 
