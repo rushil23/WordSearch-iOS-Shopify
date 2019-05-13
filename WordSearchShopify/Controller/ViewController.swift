@@ -261,7 +261,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         let endI = (start>end) ? start : end
         let startI = (start>end) ? end : start
         
-        if abs(start-end) < 10 { //Same Row
+        if abs(start-end) < game.size { //Same Row
             for i in startI...endI {
                 game.updateStatusAtIndex(status: status, index: i)
                 UIView.animate(withDuration: animationDuration, animations: {
@@ -287,7 +287,8 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         //Display Disco Effect
         let partyColorsTimer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { (t) in
             self.animateStatusAt(status: .notFound, curr)
-            curr = Int.random(in: 0..<100)
+            let size = self.game.size
+            curr = Int.random(in: 0..<(size*size))
             self.userHasWon = true
             self.animateStatusAt(status: .selected, curr)
         }
@@ -335,7 +336,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     //MARK: Helper Functions
     func fillGapsBetween(_ status:gridStatus, _ start: Int, _ end: Int) {
         // Same cells, or adjacent cells do not have gaps in between them
-        if (start == end) || abs(start-end)==1 || abs(start-end)==10 { return }
+        if (start == end) || abs(start-end)==1 || abs(start-end)==game.size { return }
         animateStatusBetween(status: status, start, end)
     }
     

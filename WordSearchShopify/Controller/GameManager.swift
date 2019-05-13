@@ -35,7 +35,7 @@ struct WordResults {
 class GameManager {
     
     // MARK: Paramaters and Variables Declaration
-    let wordList: [String] =
+    var wordList: [String] =
         [
           "Shopify",
           "Swift",
@@ -52,7 +52,7 @@ class GameManager {
     //Constants
     let REVEALS = 2
     let MAX_ATTEMPTS = 200 //Increase this value if words are missing
-    let count = 8 //Hardcoded to 8 words: Can be changed later for different number of words
+    var count = 8 //Hardcoded to 8 words: Can be changed later for different number of words
     let size: Int = 10 //Hardcoded to 10 : for 10 x 10 Grid, can be changed later for a different grid structure
     
     //Variables
@@ -65,6 +65,7 @@ class GameManager {
     //MARK: Main Functions
     func populateGrid() { //Initializes all game parameters and populates grid
         //Initialize Parameters
+        removeOversizedWords()
         initializeWords()
         wordsFound = 0
         revealsRemaining = REVEALS
@@ -182,7 +183,7 @@ class GameManager {
         return false
     }
     
-    //MARK: Special Edge Case
+    //MARK: Special Edge Cases
     // Edge Case: There is a chance that the random letters in the grid could align to form a duplicate of one
     // of the words in the word list, and this function is a helper function to handle that.
     // However: the chance of this happening is really low, 0.005 % [ (1/26)^3 ] for a 3 - lettered word like iOS
@@ -239,6 +240,28 @@ class GameManager {
         
     }
     
+    //Edge Case: A function to remove all oversized (If their length > grid size) words from word list
+    func removeOversizedWords() {
+        var removeIndexes: [Int] = []
+        for i in 0..<count {
+            if (wordList[i].count > size) { //Oversized word found
+                print("Developer Warning: Removing \(wordList[i]) from word list since its length is greater than the grid size.")
+                removeIndexes.append(i)
+            }
+        }
+        
+        for i in removeIndexes.reversed() { //Remove words in reverse so that other indexes don't get modified by the removal
+            wordList.remove(at: i)
+        }
+        
+        //Update count
+        count = wordList.count
+        
+        if (count == 0) { //No words left to display. UI does not break though :)
+            print("Developer Warning: No words in wordList. Consider increasing grid size.")
+        }
+    }
+    
     //MARK: Update Functions
     //Updates status at a particular grid index
     func updateStatusAtIndex(status: gridStatus, index: Int) { //Function to update both grid, and grid1d
@@ -258,7 +281,7 @@ class GameManager {
         let endI = (start>end) ? start : end
         let startI = (start>end) ? end : start
         
-        if abs(start-end) < 10 { //Same Row
+        if abs(start-end) < size { //Same Row
             for i in startI...endI {
                 updateStatusAtIndex(status: status, index: i)
             }
