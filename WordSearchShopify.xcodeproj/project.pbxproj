@@ -107,13 +107,13 @@
 		CE0A727F22823C88009957D8 /* WordSearchShopify */ = {
 			isa = PBXGroup;
 			children = (
-				CECCFC3F2288E0CC0081D7E2 /* Controller */,
-				CECCFC3E2288E0C10081D7E2 /* View */,
 				CECCFC3D2288E0BA0081D7E2 /* Model */,
-				CE0A728022823C88009957D8 /* AppDelegate.swift */,
+				CECCFC3E2288E0C10081D7E2 /* View */,
+				CECCFC3F2288E0CC0081D7E2 /* Controller */,
 				CE0A728422823C88009957D8 /* Main.storyboard */,
-				CE0A728722823C8A009957D8 /* Assets.xcassets */,
 				CE0A728922823C8A009957D8 /* LaunchScreen.storyboard */,
+				CE0A728022823C88009957D8 /* AppDelegate.swift */,
+				CE0A728722823C8A009957D8 /* Assets.xcassets */,
 				CE0A728C22823C8A009957D8 /* Info.plist */,
 			);
 			path = WordSearchShopify;
