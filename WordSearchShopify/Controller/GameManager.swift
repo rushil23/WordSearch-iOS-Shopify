@@ -91,6 +91,11 @@ class GameManager {
         }
         
         updateGrid1D()
+        
+        while (foundTwoWordsInSameGrid() == true) {
+            print("Developer Warning: Repopulating Grid due to duplicate words in Grid.")
+            populateGrid()
+        }
     }
     
     func getWordMatrix() -> [[GridBlock]]?{
@@ -344,13 +349,68 @@ class GameManager {
     func printGrid() {
         print("--------- GRID ---------")
         for i in 0..<size {
-            var row: [String] = []
+            var row = ""
             for j in 0..<size {
-                row.append(grid[i][j].character)
+                row += grid[i][j].character
             }
-            print(row)
+            print("Row \(i) - \(row)")
         }
         print("------------------------")
+    }
+    
+    // Edge Case: There is a chance that the random letters in the grid could align to form a duplicate of one
+    // of the words in the word list, and this function is a helper function to handle that.
+    // However: the chance of this happening is really low, 0.005 % [ (1/26)^3 ] for a 3 - lettered word like iOS
+    func foundTwoWordsInSameGrid() -> Bool {
+        var wordCount: [Int] = Array(repeating: 0, count: count)
+        
+        for i in 0..<size {
+            var row = ""
+            var column = ""
+            for j in 0..<size {
+                row += grid[i][j].character
+                column += grid[j][i].character
+            }
+            for k in 0..<count {
+                let word = wordList[k].uppercased()
+                if row.contains(word) {
+                    wordCount[k] += 1
+                    if (wordCount[k]>1) {
+                        print("Developer Warning: Found Duplicate \(word) in Row: \(i) - \(row)")
+                    }
+                }
+                if row.contains(String(word.reversed())) {
+                    wordCount[k] += 1
+                    if (wordCount[k]>1) {
+                        print("Developer Warning: Found Duplicate \(word) in Row: \(i) - \(row)")
+                    }
+                }
+                if column.contains(word) {
+                    wordCount[k] += 1
+                    if (wordCount[k]>1) {
+                        print("Developer Warning: Found Duplicate \(word) in Column: \(i) - \(column)")
+                    }
+                }
+                if column.contains(String(word.reversed())) {
+                    wordCount[k] += 1
+                    if (wordCount[k]>1) {
+                        print("Developer Warning: Found Duplicate \(word) in Column: \(i) - \(column)")
+                    }
+                }
+            }
+        }
+        
+        var found = false
+        
+        for i in 0..<count {
+            if wordCount[i] != 1 {
+                print("Developer Warning: Found \(wordCount[i]) instances of Word = \(wordList[i])")
+                found = true
+            }
+        }
+        
+        return found
+        
     }
     
 }
