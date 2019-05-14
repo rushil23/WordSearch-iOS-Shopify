@@ -1,6 +1,12 @@
-# Word Search 5 - Powered by Swift 5
+<img src = "WordSearch5Logo.png" width = 70 align="left">  
 
-## Challenge Task List: 
+
+# Word Search 5 - Powered by Swift 5
+<p align="center">
+    <img src = "Screenshots/GIFs/appDemoGif.gif" height="600" align="center">
+</p>
+
+## Shopify Challenge Task List: 
 1. Create a Word Search iOS App ✔
 2. Word search should have at least a 10 x 10 grid ✔ 
 3. Include at least the following 6 words ✔
@@ -27,8 +33,6 @@
     There is a chance that the random letters in the grid could align to form a duplicate of one of the words in the word list, and this function is a helper function to handle that.
     However: the chance of this happening is really low, 0.005 % [ (1/26)^3 ] for a 3 - lettered word like iOS
 
-
-
 ## Future Improvements
 1. Add support for diagonal words
 2. Add sound effects / vibrations based on user 
@@ -36,4 +40,29 @@
     - List of words
     - Size of Grid
 4. Add difficulty levels: Easy, Medium, Hard which modifies the size of the grid and the length of the words being placed.
+
+
+## Screenshots
+
+### 1. No Words Found ---> All Words Found
+<p align="center">
+    <img src = "Screenshots/NoWordsFound.png" height="450" align="center"> <img src = "Screenshots/AllWordsFound.png" height="450" align="center">
+</p>
+
+### 2. Slick Animations
+<p align="center">
+    <img src = "Screenshots/GIFs/SmoothAnimations.gif" height="450" align="center"> <img src = "Screenshots/GIFs/WinAnimations.gif" height="450" align="center">
+</p>
+
+### 3. AutoLayout: Portrait and Landscape Support
+
+#### a. Portrait - iPhone XR
+<p align="center">
+    <img src = "Screenshots/AutoLayout%20-%20Portrait%20%26%20Landscape/Portrait%20-%20iPhone%20X.png" height="450" align="center">
+</p>
+
+#### b. Landscape - iPhone XR
+<p align="center">
+    <img src = "Screenshots/AutoLayout%20-%20Portrait%20%26%20Landscape/Landscape%20-%20iPhone%20X.png" height="350">
+</p>
 
