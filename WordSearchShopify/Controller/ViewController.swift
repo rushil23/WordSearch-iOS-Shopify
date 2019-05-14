@@ -89,7 +89,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         } // ------ WORDS COLLECTION VIEW ------
         else {
             let cols: CGFloat = 2
-            let rows = CGFloat(game.count/2)
+            let rows = CGFloat((game.count+1)/2)
             return CGSize(width: collectionView.bounds.size.width/cols,
                           height: collectionView.bounds.size.height/rows)
         }
