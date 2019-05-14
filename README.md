@@ -50,10 +50,14 @@ Architecture supports changing game parameters by modifying a few variables. Thi
     - *Reveals* can be modified by changing **GameManager.REVEALS**
 
 6. **Auto Layout: Supports Portrait & Landscape**
+
 Supports any orientation on any device. (iPhones & iPads) [I've only tested it on the iPhone XR, iPhone 8, iPhone 7, iPad]
 
 7. **Randomization Logic:**
-Randomization logic supports placing words in a grid of any size, in a vertical/horizontal orientation.
+
+    - Randomly places words in a grid of any size. (Words with length greater than the grid size will be ignored)
+    - Supports 4 - orientations: Vertical, Horizontal, Reverse-Vertical, Reverse-Horizontal
+    - Supports overlaps: The algorithm allows overlapping words as long as they collide (overlap) at the same letter.
 
 8. **Special Edge Cases Handled:**
     - *Duplicate Words in Grid:* 
@@ -67,6 +71,10 @@ Randomization logic supports placing words in a grid of any size, in a vertical/
     
     Ensured that users get a lot of flexibility with their swipes. 
     For example: If a user accidentally swipes out of his row/column and comes back to the same row, he gets to continue his swipe :)
+    
+    - *Overlapping Words:*
+    
+    The algorithm is designed to prevent collisions between words, so that already placed words do not get interfered with. However, if at random, the word to be placed collides at the exact same letter as the word placed in the grid, we have found an overlap! Hence, the algorithm allows collisions/overlaps between two words at the same letter.  
 
 9. **MVC Design Pattern:**
     - The app mainly consists of two collection views: Words & Grids. 
