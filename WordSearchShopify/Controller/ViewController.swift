@@ -197,17 +197,22 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     
     // MARK: Swipe Gesture Handler
     @IBAction func handlePan(_ recognizer: UIPanGestureRecognizer) {
-        
-        guard let index = gridView.indexPathForItem(at: recognizer.location(in: gridView))?.item else { return }
-        if currIndex == index && recognizer.state != .ended {
+        guard let index = gridView.indexPathForItem(at: recognizer.location(in: gridView))?.item else {
+            //BugFix: if user swipes out of grid, checkWord.
+            endIndex = currIndex
+            if (endIndex != -1) {
+                checkWord()
+            }
+            initiateCleanUp()
             return
-        } else if startIndex == index {
+        }
+        if currIndex == index && recognizer.state != .ended {
             return
         }
         switch (recognizer.state) {
         case .began:
-            
-            if (startIndex != -1) { //Disable tapped grid when swipe begins
+            //BugFix: If user taps grid, and then swipes, allow swipe.
+            if (startIndex != -1 && index != startIndex) { //Disable tapped grid when swipe begins
                 animateStatusAt(status: .notFound, startIndex)
             }
             
@@ -304,6 +309,11 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     
     //MARK: Word Checker
     func checkWord() {
+        if (startIndex == -1 || endIndex == -1) { //Safe check
+            initiateCleanUp()
+            return
+        }
+        
         let word: String = game.getWordBetweenIndexes(startIndex, endIndex)
         print("Word Selected = \(word)")
         
@@ -445,7 +455,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
             //Place Words
             let wordsGridHeight: Int = Int(height - gridView.frame.maxY - topSafeHeight)
             let wordsGridY = Int(gridView.frame.maxY)
-            wordsView.frame = (CGRect(x: 0, y: wordsGridY, width: Int(gridSize), height: wordsGridHeight))
+            wordsView.frame = (CGRect(x: 0, y: wordsGridY, width: Int(gridSize), height: wordsGridHeight-safe))
             
         }
     }
