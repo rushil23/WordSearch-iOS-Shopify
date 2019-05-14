@@ -115,3 +115,22 @@ Supports any orientation on any device. (iPhones & iPads) [I've only tested it o
     <img src = "Screenshots/AutoLayout%20-%20Portrait%20%26%20Landscape/Landscape%20-%20iPhone%20X.png" height="350">
 </p>
 
+## Installation Steps:
+
+1. Clone this repository
+2. Open WordSearchShopify.xcodeproj in Xcode 10+ 
+3. Run app in Simulator / Test Device
+
+
+## Note to Shopify Devs:
+
+- It would be easier to test some aspects of the app if you get 8 reveals, for 8 words.
+- To do this, simply change GameManager.revealsRemaining to 8. 
+- Now, by simply tapping on the Words you will be able to reveal the position of the words in the grid. 
+
+This could be used to test the randomization logic of the app.
+
+Thank you for your time! I hope to work with you guys in the near future :)
+
+
+
