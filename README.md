@@ -132,5 +132,7 @@ This could be used to test the randomization logic of the app.
 
 Thank you for your time! I hope to work with you guys in the near future :)
 
+##### Update: Got the offer! 
+
 
 
